@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="VWApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -21,8 +21,9 @@
             <img src="img/logo%20ipsos.png" />
         </div>
     </div>
+
     <div id="menuVW" class="menu">
-        <div class="menu-element"><img src="img/home.png"/><br><span>Home</span></div>
+        <div class="menu-element" ng-click="alert('hola')" style="background: green;"><img src="img/home.png"/><br><span>Homecito</span></div>
         <div class="menu-element"><img src="img/reportes.png"/><br><span>Reportes</span></div>
         <div class="menu-element"><img src="img/graficas.png"/><br><span>Graficas</span></div>
         <div class="menu-element"><img src="img/telefono.png"/><br><span>Audios</span></div>
