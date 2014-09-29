@@ -2,13 +2,11 @@ body{
     background-color: lightgray;
 }
 
-.banner
-{
+.banner{
     width: 100%;
 }
 
-.banner-left
-{
+.banner-left{
     float:left;
     width:10%;
     background-color: white ;
@@ -16,17 +14,16 @@ body{
     text-align: center;
 }
 
-.banner-center
-{
+.banner-center{
     float:left;
     width:80%;
     text-align: center;
     padding-top: 2em;
     vertical-align: middle;
+    font-size: 30px;
 }
 
-.banner-right
-{
+.banner-right{
     float:left;
     width:10%;
     vertical-align: middle;
@@ -36,11 +33,9 @@ body{
 .banner img{
     width: 120px;
     height: 120px;
-
 }
 
-.menu
-{
+.menu{
     width: 10%;
     float: left;
     height: 100vh;
@@ -49,11 +44,9 @@ body{
     text-align: center;
     background-color: white;
     padding-top: 3em;
-
 }
 
-.menu-element
-{
+.menu-element{
     display: inline-block;
     text-align: center;
     background-color: white;
@@ -67,8 +60,7 @@ body{
     -moz-transition: all .7s;
 }
 
-.menu-element:hover
-{
+.menu-element:hover{
     display: inline-block;
     text-align: center;
     background-color: #08c6fe;
@@ -84,8 +76,7 @@ body{
     -moz-transition: all .7s;
 }
 
-.menu-element img
-{
+.menu-element img{
     width: 53px;
     height: 53px;
     vertical-align: middle;
@@ -93,8 +84,7 @@ body{
     -moz-transition: all .7s;
 }
 
-.menu-element:hover img
-{
+.menu-element:hover img{
     width: 53px;
     height: 53px;
     background-color: #08c6fe;
@@ -102,7 +92,6 @@ body{
     vertical-align: middle;
     -webkit-transition: all .7s;
     -moz-transition: all .7s;
-
 }
 
 .menu-element span{
@@ -124,30 +113,9 @@ body{
     float: left;
 }
 
-.panel
-{
+.panel{
     background-color: #3c3f41;
     color:#ffffff;
     height: 100vh;
-    -webkit-transition: all .7s;
-    -moz-transition: all .7s;
-}
-.fadein,
-.fadeout {
-    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.5s;
-    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.5s;
-    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.5s;
-    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.5s;
 }
 
-.fadein.ng-hide-remove,
-.fadeout.ng-hide-add.ng-hide-add-active {
-    opacity: 0;
-    display: block !important;
-}
-
-.fadeout.ng-hide-add,
-.fadein.ng-hide-remove.ng-hide-remove-active {
-    opacity: 1;
-    display: block !important;
-}

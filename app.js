@@ -1,7 +1,7 @@
 /**
  * Created by Intarget on 28/09/2014.
  */
-var app = angular.module('VWApp',['ngAnimate']);
+var app = angular.module('VWApp',[]);
 
 app.controller('TabCtrl', function($scope){
     $scope.tab = 1;
@@ -25,13 +25,8 @@ app.controller('MenuCtrl', function($scope){
         {id: 5, src:'img/upload.png', displayText: 'Carga'},
         {id: 6, src:'img/password.png', displayText: 'Password'},
         {id: 7, src:'img/config.png', displayText: 'Configuración'}];
-
+    $scope.segment = 1;
     $scope.menuClick = function( option ) {
-        switch (option)
-        {
-            case 7:
-
-                break;
-        }
-    }
+        $scope.segment = option;
+    };
 });
