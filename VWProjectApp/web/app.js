@@ -18,7 +18,7 @@ app.controller('TabCtrl', function($scope){
 
 app.controller('MenuCtrl', function($scope){
 
-    $scope.menuOptions = [{id: 1, src:'img/home.png', displayText: 'home'},
+    $scope.modules = [{id: 1, src:'img/home.png', displayText: 'Home'},
         {id: 2, src:'img/reportes.png', displayText: 'Reportes'},
         {id: 3, src:'img/graficas.png', displayText: 'Graficas'},
         {id: 4, src:'img/telefono.png', displayText: 'Audios'},
@@ -29,4 +29,9 @@ app.controller('MenuCtrl', function($scope){
     $scope.menuClick = function( option ) {
         $scope.segment = option;
     };
+});
+
+app.controller("ModuleCtrl", function ($scope) {
+    $scope.module = {};
+
 });

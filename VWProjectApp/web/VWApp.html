@@ -24,7 +24,7 @@
     </div>
     <div ng-controller="MenuCtrl">
     <div id="menuVW" class="menu" >
-        <div class="menu-element" ng-click="menuClick(option.id)" ng-repeat="option in menuOptions"><img ng-src="{{option.src}}"/><br><span>{{option.displayText}}</span></div>
+        <div class="menu-element" ng-click="menuClick(option.id)" ng-repeat="option in modules"><img ng-src="{{option.src}}"/><br><span>{{option.displayText}}</span></div>
     </div>
     <div id = "contentPrincipal" class="content" >
 
@@ -41,23 +41,25 @@
             <section ng-controller="TabCtrl">
                 <ul class="nav nav-pills">
                     <li ng-class="{active: isSelected(1)}" ><a href ng-click="selectTab(1)"> Modulos </a></li>
-                    <li ng-class="{active: isSelected(2)}" ><a href ng-click="selectTab(2)"> Usuarios </a></li>
-                    <li ng-class="{active: isSelected(3)}" ><a href ng-click="selectTab(3)"> Roles </a></li>
+                    <li ng-class="{active: isSelected(2)}" ><a href ng-click="selectTab(2)"> Roles </a></li>
+                    <li ng-class="{active: isSelected(3)}" ><a href ng-click="selectTab(3)"> Usuarios </a></li>
                 </ul>
                 <div ng-show="tab === 1"  class="panel fadein fadeout">
-                    Modulos
-                    <br>
-                    Modulos
-                    <br>
-                    Modulo
-                    <br>
-                    modulos
+                   <h2>Modulos de la aplicación</h2>
+                    <ul ng-repeat="module in modules">
+                       <li>{{module.displayText}}</li>
+                    </ul>
+                    <form name="moduleAdd" ng-controller="ModuleCtrl" class="ModuleList">
+                        <label>Nombre Modulo</label>
+                        <input type="text" ng-model="module.name"/>
+                        <input type="button" value="Agregar"/>
+                    </form>
                 </div>
                 <div ng-show="tab === 2"  class="panel fadein fadeout">
-                    Roles
+                    <h2>Roles de usuario</h2>
                 </div>
                 <div ng-show="tab === 3"  class="panel fadein fadeout">
-                    Usuarios
+                    <h2>Usuarios de aplicación</h2>
                 </div>
             </section>
 

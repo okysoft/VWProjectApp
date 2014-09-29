@@ -119,3 +119,19 @@ body{
     height: 100vh;
 }
 
+.ModuleList
+{
+    font-size: 14px;
+
+}
+
+.ModuleList blockquote
+{
+    font-size: 10px;
+}
+
+.ModuleList input
+{
+    font-size: 14px;
+    color:#000000;
+}
