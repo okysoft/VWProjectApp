@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="VWApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/VWApp.css" />
+    <script src="scripts/libs/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+<div id="App">
+    <div id="banner" class="banner">
+            <div class="banner-left">
+                <img src="img/dasautosmall.png" />
+            </div>
+        <div class="banner-center">
+            <span>REPORTADOR VOLKSWAGEN</span>
+        </div>
+        <div class="banner-right">
+            <img src="img/logo%20ipsos.png" />
+        </div>
+    </div>
+    <div ng-controller="MenuCtrl">
+    <div id="menuVW" class="menu" >
+        <div class="menu-element" ng-click="menuClick(option.id)" ng-repeat="option in menuOptions"><img ng-src="{{option.src}}"/><br><span>{{option.displayText}}</span></div>
+    </div>
+    <div id = "contentPrincipal" class="content" >
+
+        <div id="homeDiv" class="content"  ng-show="  segment == 1">
+            <p>
+                Bienvenido al Reporteador Volkswagen
+            </p>
+            <p>
+                En este reporteador puede cargar o escuchar los audios
+            </p>
+        </div>
+
+        <div id="configDiv" class="content" ng-show="segment == 7">
+            <section ng-controller="TabCtrl">
+                <ul class="nav nav-pills">
+                    <li ng-class="{active: isSelected(1)}" ><a href ng-click="selectTab(1)"> Modulos </a></li>
+                    <li ng-class="{active: isSelected(2)}" ><a href ng-click="selectTab(2)"> Usuarios </a></li>
+                    <li ng-class="{active: isSelected(3)}" ><a href ng-click="selectTab(3)"> Roles </a></li>
+                </ul>
+                <div ng-show="tab === 1"  class="panel fadein fadeout">
+                    Modulos
+                    <br>
+                    Modulos
+                    <br>
+                    Modulo
+                    <br>
+                    modulos
+                </div>
+                <div ng-show="tab === 2"  class="panel fadein fadeout">
+                    Roles
+                </div>
+                <div ng-show="tab === 3"  class="panel fadein fadeout">
+                    Usuarios
+                </div>
+            </section>
+
+
+        </div>
+    </div>
+    </div>
+
+</div>
+</body>
+</html>
