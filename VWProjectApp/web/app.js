@@ -38,13 +38,12 @@ app.controller("ModuleCtrl", function ($scope) {
 
 app.controller("UploadBD",function($scope)
 {
+    $scope.dataLoading = false;
+    $scope.fileType = 1;
+    $scope.show = true;
+
     $scope.filesChanged = function (elm) {
         $scope.files= elm.files;
-        $scope.$apply();
-    };
-
-    $scope.upload = function()
-    {
         if($scope.files != undefined){
             var reader = new FileReader();
             var file = $scope.files[0];
@@ -60,15 +59,35 @@ app.controller("UploadBD",function($scope)
                 return result;
             }
 
+            function _arrayBufferToBase64( buffer ) {
+                var binary = '';
+                var bytes = new Uint8Array( buffer );
+                var len = bytes.byteLength;
+                for (var i = 0; i < len; i++) {
+                    binary += String.fromCharCode( bytes[ i ] );
+                }
+                return btoa( binary );
+            }
+
             reader.onload = function(e) {
                 var data = e.target.result;
-                //var wb = XLSX.read(data, {type: 'binary'});
-                var arr = String.fromCharCode.apply(null, new Uint8Array(data));
-                var wb = XLSX.read(btoa(arr), {type: 'base64'});
+                var wb = XLSX.read(data, {type: 'binary'});
+                //var arr = String.fromCharCode.apply(null, new Uint8Array(data));
+                //var wb = XLSX.read(btoa(arr), {type: 'base64'});
                 $scope.cBase = to_json(wb);
+                $scope.dataLoading = false;
+                $scope.$apply();
             };
             //reader.readAsBinaryString(f);
+            $scope.dataLoading = true;
             reader.readAsArrayBuffer(file);
         }
+        $scope.$apply();
     };
+
+    $scope.uploadAnalisis = function()
+    {
+
+    };
+
 });

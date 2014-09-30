@@ -38,33 +38,42 @@
                 En este reporteador puede cargar o escuchar los audios
             </p>
         </div>
+        <div id="loadDiv" ng-show="segment == 5" class="content" ng-controller="UploadBD">
+            <div ng-if="dataLoading" class="waitMask">
+                <div style="top:50%; left: 50%; position: absolute;">
+                    <img src="img/loading_a.gif" style="width: 40px; height: 40px;">
+                </div>
 
-        <div id="loadDiv" ng-show="segment == 5" class="content">
+            </div>
             <div class="panel fadein fadeout">
                 <h2>Carga de Bases de datos</h2>
                     <p>
                         Selecciona el tipo de base a cargar
                     </p>
-                    <form ng-controller="UploadBD">
+                <div>
+                    <form name="uploadForm">
                         <div style="float: left">
                             <select>
-                                <option value="1">Base Original</option>
-                                <option value="2">Base Estatus de Depuración</option>
-                                <option value="3">Base Estatus de Marcación</option>
+                                <option value="1">Base Casuistica</option>
+                                <option value="2">Base Log Audios</option>
                             </select>
                         </div>
-
-                        <div style="float: left">
+                        <div style="float: left; padding-left: 1em;">
                             <input type="file" ng-model="files" onchange="angular.element(this).scope().filesChanged(this)" />
-
-                        </div>
-                        <div style="float: left">
-                            <button ng-click="upload()"> Upload </button>
                         </div>
                     </form>
-
-
+                </div>
+                <br>
+                <div name="AnalisisCasuistica" ng-show="fileType == 1 && show" >
+                    <h3>Analisis de la Base de datos Casuistica</h3>
+                </div>
+                <br>
+                <div name="AnalisisLogAudios" ng-show="fileType == 2 && show">
+                    <h3>Analisis del Log de Audios</h3>
+                </div>
             </div>
+
+
 
         </div>
 
@@ -100,5 +109,6 @@
     </div>
 
 </div>
+
 </body>
 </html>

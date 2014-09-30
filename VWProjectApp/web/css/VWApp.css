@@ -130,6 +130,18 @@ body{
     font-size: 10px;
 }
 
+.waitMask
+{
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(166, 171, 138, 0.40);
+    text-align: center;
+    align-content: center;
+}
+
 
 option, select, input {
     font-size: 14px;
@@ -156,3 +168,4 @@ option, select, input {
     height: auto;
     width: 0;
 }
+
