@@ -65,7 +65,7 @@ app.controller("UploadBD",function($scope)
                 //var wb = XLSX.read(data, {type: 'binary'});
                 var arr = String.fromCharCode.apply(null, new Uint8Array(data));
                 var wb = XLSX.read(btoa(arr), {type: 'base64'});
-                var result = to_json(wb);
+                $scope.cBase = to_json(wb);
             };
             //reader.readAsBinaryString(f);
             reader.readAsArrayBuffer(file);
