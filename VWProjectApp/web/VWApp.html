@@ -99,19 +99,38 @@
                         <p><span>Compilador: </span>{{casuisticaAnalisis.compilador}}</p>
                         <hr>
                         <div style="float: left">
-                            <p><span>Total de Registros: </span>{{casuisticaAnalisis.totalRegistros}}</p>
-                            <p><span>Total de Funicos Distintos: </span>{{casuisticaAnalisis.totalFunicos}}</p>
-                            <p><span>Total de No de concesionarios: </span>{{casuisticaAnalisis.totalConcesionarios}}</p>
-                            <p><span>Total de registros con Telefono Registrado: </span>{{casuisticaAnalisis.totalTelefonosRegistrados}}</p>
+                            <p><span>Total de registros: </span>{{audiosVentasPasajeros.totalRegistros}}</p>
+                            <p><span>Total de DIAKEYF distintos: </span>{{audiosVentasPasajeros.totalDIAKEYF}}</p>
+                            <p><span>Total de concesionarios: </span>{{audiosVentasPasajeros.totalConcesionarios}}</p>
+                            <p><span>Total de chasis distintos registrados: </span>{{audiosVentasPasajeros.totalChasis}}</p>
                         </div>
                         <div style="float: left; padding-left: 1em;">
-                            <p><span>Total de registros con Email 1: </span>{{casuisticaAnalisis.totalEmail}}</p>
-                            <p><span>Total de registros con Email 2: </span>{{casuisticaAnalisis.totalEmail2}}</p>
-                            <p><span>Total de Asesores Distintos por CURP: </span>{{casuisticaAnalisis.totalAsesores}}</p>
-                            <p><span>Total de Tecnicos Distintos: </span>{{casuisticaAnalisis.totalTecnicos}}</p>
+                            <p><span>Total de archivos de audio: </span>{{audiosVentasPasajeros.totalAudios}}</p>
                         </div>
                     </blockquote>
                 </div>
+                <br>
+                <div name="AnalisisGrabacionesServicioPasajeros" ng-show="fileType == 3 && show" class="AnalisisDiv">
+                    <h3>Analisis de la Base de Grabaciones Ventas Pasajeros</h3>
+                    <blockquote class="quoteAnalisis">
+                        <p><span>Nombre del Archivo: </span> {{casuisticaAnalisis.nombreArchivo}} </p>
+                        <p><span>Versión: </span>{{casuisticaAnalisis.version}}</p>
+                        <p><span>Medición: </span>{{casuisticaAnalisis.medicion}}</p>
+                        <p><span>Fecha: </span>{{casuisticaAnalisis.fecha}}</p>
+                        <p><span>Compilador: </span>{{casuisticaAnalisis.compilador}}</p>
+                        <hr>
+                        <div style="float: left">
+                            <p><span>Total de registros: </span>{{audiosServicioPasajeros.totalRegistros}}</p>
+                            <p><span>Total de Id distintos: </span>{{audiosServicioPasajeros.totalID}}</p>
+                            <p><span>Total de concesionarios: </span>{{audiosServicioPasajeros.totalConcesionarios}}</p>
+                            <p><span>Total de chasis distintos registrados: </span>{{audiosServicioPasajeros.totalChasis}}</p>
+                        </div>
+                        <div style="float: left; padding-left: 1em;">
+                            <p><span>Total de archivos de audio: </span>{{audiosServicioPasajeros.totalAudios}}</p>
+                        </div>
+                    </blockquote>
+                </div>
+
             </div>
 
 
