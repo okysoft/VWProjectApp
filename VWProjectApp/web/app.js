@@ -46,6 +46,76 @@ app.controller("UploadBD",function($scope)
     $scope.audiosServicioPasajeros = {};
     $scope.bdUpload = {};
 
+    $scope.procesar = function(type)
+    {
+        switch(type)
+        {
+            case 1:
+                var concesionarios = Enumerable.From($scope.cBase.Base)
+                    .Distinct(function (x) {
+                        return x.No_Concesionario
+                    })
+                    .Where(function (x) {
+                        return x.No_Concesionario != undefined
+                    })
+                    .Select(function (x) {
+                        var concesionario = {};
+                        concesionario.No_Concesionario = x.No_Concesionario
+                        return concesionario
+                    })
+                    .ToArray();
+
+                $scope.casuiticaReport=[];
+                for(var i = 0; i < concesionarios.length; i++)
+                {
+                    var registros = Enumerable.From($scope.cBase.Base)
+                        .Where(function (x) {
+                            return x.No_Concesionario == concesionarios[i].No_Concesionario
+                        })
+                        .Select(function (x) { return x })
+                        .ToArray();
+
+                    var row = {};
+                    var funicos = Enumerable.From(registros)
+                        .Select(function (x) { return x.FUNICO })
+                        .ToArray();
+
+                    var estatusDepuracion = Enumerable.From($scope.cBase.EstatusDepuracion)
+                        .Where(function(x){
+                            if(funicos.indexOf(x.FUNICO) > -1){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        })
+                        .Select(function (x) { return x })
+                        .ToArray();
+
+                    var estatusMarcacion = Enumerable.From($scope.cBase.EstatusMarcacion)
+                        .Where(function(x){
+                            if(funicos.indexOf(x.FUNICO) > -1){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        })
+                        .Select(function (x) { return x })
+                        .ToArray();
+
+                    row.ID = concesionarios[i].No_Concesionario;
+                    row.Recibidos = registros.length;
+                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'AGENCIA cancelada'}).Count;
+                    row.FechaServicio = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'FECHA SERVICIO Invalida'}).Count;
+                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'NO CONTACTAR'}).Count;
+
+
+
+                    $scope.casuiticaReport.push(row);
+                }
+                break;
+        }
+    }
+
     $scope.change= function(option){
         $scope.fileType = option;
         $scope.show = false;
@@ -333,4 +403,14 @@ app.controller("UploadBD",function($scope)
         $scope.$apply();
     };
 
+});
+
+app.controller('ReportCtrl', function($scope){
+
+    $scope.FillReport = function($scope)
+    {
+        for (var x in objeto) {
+            // aquí la variable x en cada vuelta tendrá un valor distinto
+        }
+    }
 });

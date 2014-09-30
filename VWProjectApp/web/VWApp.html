@@ -87,6 +87,9 @@
                              <p><span>Total de Tecnicos Distintos: </span>{{casuisticaAnalisis.totalTecnicos}}</p>
                         </div>
                     </blockquote>
+                    <div>
+                        <input type="button" ng-click="procesar(1)" value="Generar" />
+                    </div>
                 </div>
                 <br>
                 <div name="AnalisisGrabacionesVentasPasajeros" ng-show="fileType == 2 && show" class="AnalisisDiv">
@@ -135,6 +138,24 @@
 
 
 
+        </div>
+        <div id="reportDiv" class="content" ng-show="segment == 2">
+            <section ng-controller="ReportCtrl">
+                <div class="panel fadein fadeout">
+                    <h2>Reporte Casuistica</h2>
+                    <div class="datagrid"><table>
+                        <thead><tr><th>header</th><th>header</th><th>header</th><th>header</th></tr></thead>
+
+                        <tbody>
+                        <tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
+                        <tr class="alt"><td>data</td><td>data</td><td>data</td><td>data</td></tr>
+                        <tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
+                        <tr class="alt"><td>data</td><td>data</td><td>data</td><td>data</td></tr>
+                        <tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
+                        </tbody>
+                    </table></div>
+                </div>
+            </section>
         </div>
 
         <div id="configDiv" class="content" ng-show="segment == 7">
