@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css" />
     <link rel="stylesheet" type="text/css" href="css/VWApp.css" />
     <script src="scripts/libs/angular.min.js"></script>
+    <script src="scripts/libs/xls.js"></script>
     <script src="app.js"></script>
 </head>
 <body>
@@ -37,6 +38,21 @@
             </p>
         </div>
 
+        <div id="loadDiv" ng-show="segment == 5" class="content">
+            <div class="panel fadein fadeout">
+                <h2>Carga de Bases de datos</h2>
+                    <p>
+                        Selecciona el tipo de base a cargar
+                    </p>
+                <select>
+                    <option value="1">Base Original</option>
+                    <option value="2">Base Estatus de Depuración</option>
+                    <option value="3">Base Estatus de Marcación</option>
+                </select>
+            </div>
+
+        </div>
+
         <div id="configDiv" class="content" ng-show="segment == 7">
             <section ng-controller="TabCtrl">
                 <ul class="nav nav-pills">
@@ -55,7 +71,6 @@
                         <input type="button" value="Agregar"/>
                     </form>
                 </div>
-                <div ng-show="tab===5" class="panel fadein fadeout"></div>
                 <div ng-show="tab === 2"  class="panel fadein fadeout">
                     <h2>Roles de usuario</h2>
                 </div>
