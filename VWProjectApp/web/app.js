@@ -39,9 +39,15 @@ app.controller("ModuleCtrl", function ($scope) {
 app.controller("UploadBD",function($scope)
 {
     $scope.dataLoading = false;
-    $scope.fileType = 1;
+    $scope.fileType = 2;
     $scope.show = true;
     $scope.casuisticaAnalisis = {};
+    $scope.bdUpload = {};
+
+    $scope.change= function(option){
+        //$scope.fileType = option;
+        //$scope.show = false;
+    };
 
     $scope.filesChanged = function (elm) {
         $scope.files= elm.files;
@@ -116,9 +122,57 @@ app.controller("UploadBD",function($scope)
                 return registro})
             .ToArray().length;
 
+        $scope.casuisticaAnalisis.totalTelefonosRegistrados =  Enumerable.From($scope.cBase.Base)
+            .Where(function(x){return x.Telefono1!= undefined})
+            .Select(function (x) {
+                var registro = {};
+                registro.Telefono1 = x.Telefono1
+                return registro})
+            .ToArray().length;
 
+        $scope.casuisticaAnalisis.totalEmail =  Enumerable.From($scope.cBase.Base)
+            .Where(function(x){return x.Mail!= undefined})
+            .Select(function (x) {
+                var registro = {};
+                registro.Mail = x.Mail
+                return registro})
+            .ToArray().length;
 
+        $scope.casuisticaAnalisis.totalEmail2 =  Enumerable.From($scope.cBase.Base)
+            .Where(function(x){return x.Mail2!= undefined})
+            .Select(function (x) {
+                var registro = {};
+                registro.Mail2 = x.Mail2
+                return registro})
+            .ToArray().length;
 
+        $scope.casuisticaAnalisis.totalEmail2 =  Enumerable.From($scope.cBase.Base)
+            .Where(function(x){return x.Mail2!= undefined})
+            .Select(function (x) {
+                var registro = {};
+                registro.Mail2 = x.Mail2
+                return registro})
+            .ToArray().length;
+
+        $scope.casuisticaAnalisis.totalAsesores =  Enumerable.From($scope.cBase.Base)
+            .Distinct(function(x){ return x.CURPAsesor })
+            .Where(function(x){return x.CURPAsesor!= undefined})
+            .Select(function (x) {
+                var registro = {};
+                registro.CURPAsesor = x.CURPAsesor
+                return registro})
+            .ToArray().length;
+
+        $scope.casuisticaAnalisis.totalTecnicos =  Enumerable.From($scope.cBase.Base)
+            .Distinct(function(x){ return x.Tecnico })
+            .Where(function(x){return x.Tecnico!= undefined})
+            .Select(function (x) {
+                var registro = {};
+                registro.Tecnico = x.Tecnico
+                return registro})
+            .ToArray().length;
+
+        $scope.show = true;
         $scope.$apply();
     };
 

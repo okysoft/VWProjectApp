@@ -53,9 +53,10 @@
                 <div>
                     <form name="uploadForm">
                         <div style="float: left">
-                            <select>
+                            <select ng-model="opt" ng-change="change(opt)">
                                 <option value="1">Base Casuistica</option>
-                                <option value="2">Base Log Audios</option>
+                                <option value="2">Base Grabaciones Ventas Pasajeros</option>
+                                <option value="3">Base Grabaciones Servicio Pasajeros</option>
                             </select>
                         </div>
                         <div style="float: left; padding-left: 1em;">
@@ -73,16 +74,43 @@
                         <p><span>Fecha: </span>{{casuisticaAnalisis.fecha}}</p>
                         <p><span>Compilador: </span>{{casuisticaAnalisis.compilador}}</p>
                         <hr>
-                        <p><span>Total de Registros: </span>{{casuisticaAnalisis.totalRegistros}}</p>
-                        <p><span>Total de Funicos Distintos: </span>{{casuisticaAnalisis.totalFunicos}}</p>
-                        <p><span>Total de No de concesionarios: </span>{{casuisticaAnalisis.totalConcesionarios}}</p>
-
-
+                        <div style="float: left">
+                            <p><span>Total de Registros: </span>{{casuisticaAnalisis.totalRegistros}}</p>
+                            <p><span>Total de Funicos Distintos: </span>{{casuisticaAnalisis.totalFunicos}}</p>
+                            <p><span>Total de No de concesionarios: </span>{{casuisticaAnalisis.totalConcesionarios}}</p>
+                            <p><span>Total de registros con Telefono Registrado: </span>{{casuisticaAnalisis.totalTelefonosRegistrados}}</p>
+                        </div>
+                        <div style="float: left; padding-left: 1em;">
+                             <p><span>Total de registros con Email 1: </span>{{casuisticaAnalisis.totalEmail}}</p>
+                             <p><span>Total de registros con Email 2: </span>{{casuisticaAnalisis.totalEmail2}}</p>
+                             <p><span>Total de Asesores Distintos por CURP: </span>{{casuisticaAnalisis.totalAsesores}}</p>
+                             <p><span>Total de Tecnicos Distintos: </span>{{casuisticaAnalisis.totalTecnicos}}</p>
+                        </div>
                     </blockquote>
                 </div>
                 <br>
-                <div name="AnalisisLogAudios" ng-show="fileType == 2 && show">
-                    <h3>Analisis del Log de Audios</h3>
+                <div name="AnalisisGrabacionesVentasPasajeros" ng-show="fileType == 2 && show" class="AnalisisDiv">
+                    <h3>Analisis de la Base de Grabaciones Ventas Pasajeros</h3>
+                    <blockquote class="quoteAnalisis">
+                        <p><span>Nombre del Archivo: </span> {{casuisticaAnalisis.nombreArchivo}} </p>
+                        <p><span>Versión: </span>{{casuisticaAnalisis.version}}</p>
+                        <p><span>Medición: </span>{{casuisticaAnalisis.medicion}}</p>
+                        <p><span>Fecha: </span>{{casuisticaAnalisis.fecha}}</p>
+                        <p><span>Compilador: </span>{{casuisticaAnalisis.compilador}}</p>
+                        <hr>
+                        <div style="float: left">
+                            <p><span>Total de Registros: </span>{{casuisticaAnalisis.totalRegistros}}</p>
+                            <p><span>Total de Funicos Distintos: </span>{{casuisticaAnalisis.totalFunicos}}</p>
+                            <p><span>Total de No de concesionarios: </span>{{casuisticaAnalisis.totalConcesionarios}}</p>
+                            <p><span>Total de registros con Telefono Registrado: </span>{{casuisticaAnalisis.totalTelefonosRegistrados}}</p>
+                        </div>
+                        <div style="float: left; padding-left: 1em;">
+                            <p><span>Total de registros con Email 1: </span>{{casuisticaAnalisis.totalEmail}}</p>
+                            <p><span>Total de registros con Email 2: </span>{{casuisticaAnalisis.totalEmail2}}</p>
+                            <p><span>Total de Asesores Distintos por CURP: </span>{{casuisticaAnalisis.totalAsesores}}</p>
+                            <p><span>Total de Tecnicos Distintos: </span>{{casuisticaAnalisis.totalTecnicos}}</p>
+                        </div>
+                    </blockquote>
                 </div>
             </div>
 
