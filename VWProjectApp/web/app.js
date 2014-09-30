@@ -41,13 +41,14 @@ app.controller("UploadBD",function($scope)
     $scope.dataLoading = false;
     $scope.fileType = 1;
     $scope.show = true;
+    $scope.casuisticaAnalisis = {};
 
     $scope.filesChanged = function (elm) {
         $scope.files= elm.files;
         if($scope.files != undefined){
             var reader = new FileReader();
             var file = $scope.files[0];
-
+            $scope.casuisticaAnalisis.nombreArchivo = file.name;
             function to_json(workbook) {
                 var result = {};
                 workbook.SheetNames.forEach(function(sheetName) {
@@ -58,7 +59,6 @@ app.controller("UploadBD",function($scope)
                 });
                 return result;
             }
-
             function _arrayBufferToBase64( buffer ) {
                 var binary = '';
                 var bytes = new Uint8Array( buffer );
@@ -75,6 +75,7 @@ app.controller("UploadBD",function($scope)
                 //var arr = String.fromCharCode.apply(null, new Uint8Array(data));
                 //var wb = XLSX.read(btoa(arr), {type: 'base64'});
                 $scope.cBase = to_json(wb);
+                $scope.uploadAnalisis();
                 $scope.dataLoading = false;
                 $scope.$apply();
             };

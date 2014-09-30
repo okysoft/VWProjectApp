@@ -9,6 +9,7 @@
     <script src="scripts/libs/angular.min.js"></script>
     <script src="scripts/libs/jszip.js"></script>
     <script src="scripts/libs/xlsx.js"></script>
+    <script src="scripts/libs/linq.js"></script>
     <script src="app.js"></script>
 </head>
 <body>
@@ -43,7 +44,6 @@
                 <div style="top:50%; left: 50%; position: absolute;">
                     <img src="img/loading_a.gif" style="width: 40px; height: 40px;">
                 </div>
-
             </div>
             <div class="panel fadein fadeout">
                 <h2>Carga de Bases de datos</h2>
@@ -64,8 +64,16 @@
                     </form>
                 </div>
                 <br>
-                <div name="AnalisisCasuistica" ng-show="fileType == 1 && show" >
+                <div name="AnalisisCasuistica" ng-show="fileType == 1 && show" class="AnalisisDiv">
                     <h3>Analisis de la Base de datos Casuistica</h3>
+                    <blockquote>
+                        <p><span class="quoteAnalisis">Nombre del Archivo: </span> {{casuisticaAnalisis.nombreArchivo}} </p>
+                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
+                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
+                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
+                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
+
+                    </blockquote>
                 </div>
                 <br>
                 <div name="AnalisisLogAudios" ng-show="fileType == 2 && show">
@@ -102,8 +110,6 @@
                     <h2>Usuarios de aplicación</h2>
                 </div>
             </section>
-
-
         </div>
     </div>
     </div>
