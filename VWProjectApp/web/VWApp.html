@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="VWApp">
+<html ng-app="VWApp" xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -44,11 +44,25 @@
                     <p>
                         Selecciona el tipo de base a cargar
                     </p>
-                <select>
-                    <option value="1">Base Original</option>
-                    <option value="2">Base Estatus de Depuración</option>
-                    <option value="3">Base Estatus de Marcación</option>
-                </select>
+                    <form ng-controller="UploadBD">
+                        <div style="float: left">
+                            <select>
+                                <option value="1">Base Original</option>
+                                <option value="2">Base Estatus de Depuración</option>
+                                <option value="3">Base Estatus de Marcación</option>
+                            </select>
+                        </div>
+
+                        <div style="float: left">
+                            <input type="file" ng-model="files" onchange="angular.element(this).scope().filesChanged(this)" />
+
+                        </div>
+                        <div style="float: left">
+                            <button ng-click="upload()"> Upload </button>
+                        </div>
+                    </form>
+
+
             </div>
 
         </div>

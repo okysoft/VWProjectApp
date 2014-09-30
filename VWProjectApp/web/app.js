@@ -35,3 +35,40 @@ app.controller("ModuleCtrl", function ($scope) {
     $scope.module = {};
 
 });
+
+app.controller("UploadBD",function($scope)
+{
+    $scope.filesChanged = function (elm) {
+        $scope.files= elm.files;
+        $scope.$apply();
+    };
+
+    $scope.upload = function()
+    {
+        if($scope.files != undefined){
+            var reader = new FileReader();
+            var file = $scope.files[0];
+
+            function to_json(workbook) {
+                var result = {};
+                workbook.SheetNames.forEach(function(sheetName) {
+                    var roa = XLS.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    if(roa.length > 0){
+                        result[sheetName] = roa;
+                    }
+                });
+                return result;
+            }
+
+            reader.onload = function(e) {
+                var data = e.target.result;
+                //var wb = XLSX.read(data, {type: 'binary'});
+                var arr = String.fromCharCode.apply(null, new Uint8Array(data));
+                var wb = XLSX.read(btoa(arr), {type: 'base64'});
+                var result = to_json(wb);
+            };
+            //reader.readAsBinaryString(f);
+            reader.readAsArrayBuffer(file);
+        }
+    };
+});
