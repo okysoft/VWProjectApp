@@ -66,12 +66,17 @@
                 <br>
                 <div name="AnalisisCasuistica" ng-show="fileType == 1 && show" class="AnalisisDiv">
                     <h3>Analisis de la Base de datos Casuistica</h3>
-                    <blockquote>
-                        <p><span class="quoteAnalisis">Nombre del Archivo: </span> {{casuisticaAnalisis.nombreArchivo}} </p>
-                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
-                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
-                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
-                        <p><span class="quoteAnalisis">Versión</span>{{casuisticaAnalisis.version}}</p>
+                    <blockquote class="quoteAnalisis">
+                        <p><span>Nombre del Archivo: </span> {{casuisticaAnalisis.nombreArchivo}} </p>
+                        <p><span>Versión: </span>{{casuisticaAnalisis.version}}</p>
+                        <p><span>Medición: </span>{{casuisticaAnalisis.medicion}}</p>
+                        <p><span>Fecha: </span>{{casuisticaAnalisis.fecha}}</p>
+                        <p><span>Compilador: </span>{{casuisticaAnalisis.compilador}}</p>
+                        <hr>
+                        <p><span>Total de Registros: </span>{{casuisticaAnalisis.totalRegistros}}</p>
+                        <p><span>Total de Funicos Distintos: </span>{{casuisticaAnalisis.totalFunicos}}</p>
+                        <p><span>Total de No de concesionarios: </span>{{casuisticaAnalisis.totalConcesionarios}}</p>
+
 
                     </blockquote>
                 </div>

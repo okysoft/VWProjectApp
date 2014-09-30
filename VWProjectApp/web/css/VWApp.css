@@ -149,7 +149,12 @@ body{
 
 .quoteAnalisis
 {
-    color: rgba(218, 229, 185, 0.100)
+    font-size: 14px;
+}
+
+.quoteAnalisis span
+{
+    color: #08c6fe;
 }
 
 option, select, input {

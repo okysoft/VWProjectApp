@@ -59,7 +59,7 @@ app.controller("UploadBD",function($scope)
                 });
                 return result;
             }
-            function _arrayBufferToBase64( buffer ) {
+            /*function _arrayBufferToBase64( buffer ) {
                 var binary = '';
                 var bytes = new Uint8Array( buffer );
                 var len = bytes.byteLength;
@@ -67,7 +67,7 @@ app.controller("UploadBD",function($scope)
                     binary += String.fromCharCode( bytes[ i ] );
                 }
                 return btoa( binary );
-            }
+            }*/
 
             reader.onload = function(e) {
                 var data = e.target.result;
@@ -88,7 +88,38 @@ app.controller("UploadBD",function($scope)
 
     $scope.uploadAnalisis = function()
     {
+           //Configuracion
+        $scope.casuisticaAnalisis.compilador = $scope.cBase.Config[0].Compilador;
+        $scope.casuisticaAnalisis.fecha = $scope.cBase.Config[0].Fecha;
+        $scope.casuisticaAnalisis.medicion = $scope.cBase.Config[0].Medición;
+        $scope.casuisticaAnalisis.version = $scope.cBase.Config[0].Versión;
 
+        //Base
+
+
+        $scope.casuisticaAnalisis.totalRegistros = $scope.cBase.Base.length;
+        $scope.casuisticaAnalisis.totalConcesionarios =  Enumerable.From($scope.cBase.Base)
+            .Distinct(function(x){ return x.No_Concesionario })
+            .Where(function(x){return x.No_Concesionario!= undefined})
+            .Select(function (x) {
+                var concesionario = {};
+                concesionario.No_Concesionario = x.No_Concesionario
+                return concesionario})
+            .ToArray().length;
+
+        $scope.casuisticaAnalisis.totalFunicos =  Enumerable.From($scope.cBase.Base)
+            .Distinct(function(x){ return x.FUNICO })
+            .Where(function(x){return x.FUNICO!= undefined})
+            .Select(function (x) {
+                var registro = {};
+                registro.FUNICO = x.FUNICO
+                return registro})
+            .ToArray().length;
+
+
+
+
+        $scope.$apply();
     };
 
 });
