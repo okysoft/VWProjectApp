@@ -36,7 +36,7 @@ app.controller("ModuleCtrl", function ($scope) {
 
 });
 
-app.controller("UploadBD",function($scope)
+app.controller("UploadBD",function($scope, $rootScope)
 {
     $scope.dataLoading = false;
     $scope.fileType = 0;
@@ -51,6 +51,7 @@ app.controller("UploadBD",function($scope)
         switch(type)
         {
             case 1:
+                $scope.dataLoading = true;
                 var concesionarios = Enumerable.From($scope.cBase.Base)
                     .Distinct(function (x) {
                         return x.No_Concesionario
@@ -104,14 +105,18 @@ app.controller("UploadBD",function($scope)
 
                     row.ID = concesionarios[i].No_Concesionario;
                     row.Recibidos = registros.length;
-                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'AGENCIA cancelada'}).Count;
-                    row.FechaServicio = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'FECHA SERVICIO Invalida'}).Count;
-                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'NO CONTACTAR'}).Count;
+                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'AGENCIA cancelada'}).ToArray().length;
+                    row.FechaServicio = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'FECHA SERVICIO Invalida'}).ToArray().length;
+                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'NO CONTACTAR'}).ToArray().length;
 
 
 
                     $scope.casuiticaReport.push(row);
+
                 }
+                $rootScope.csReport = $scope.casuiticaReport;
+                $scope.dataLoading = false;
+                alert("Generado");
                 break;
         }
     }
@@ -405,12 +410,18 @@ app.controller("UploadBD",function($scope)
 
 });
 
-app.controller('ReportCtrl', function($scope){
+app.controller('ReportCtrl', function($scope, $rootScope){
 
-    $scope.FillReport = function($scope)
+    $scope.csColNames = [];
+    $scope.agencias = [];
+    $scope.FillReport = function()
     {
-        for (var x in objeto) {
-            // aquí la variable x en cada vuelta tendrá un valor distinto
+        var he = $rootScope.csReport[0];
+        for (var h in he) {
+            $scope.csColNames.push(h);
         }
+
+        $scope.agencias = $rootScope.csReport;
+
     }
 });

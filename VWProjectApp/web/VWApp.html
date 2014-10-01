@@ -143,15 +143,15 @@
             <section ng-controller="ReportCtrl">
                 <div class="panel fadein fadeout">
                     <h2>Reporte Casuistica</h2>
+                    <input ng-click="FillReport()" value="Obtener" type="button"/>
                     <div class="datagrid"><table>
-                        <thead><tr><th>header</th><th>header</th><th>header</th><th>header</th></tr></thead>
-
+                        <thead>
+                        <tr >
+                            <th ng-repeat="csCol in csColNames">{{csCol}}</th>
+                        </tr>
+                        </thead>
                         <tbody>
-                        <tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-                        <tr class="alt"><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-                        <tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-                        <tr class="alt"><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-                        <tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
+                        <tr ng-repeat="agencia in agencias"><td>{{agencia.ID}}</td><td>{{agencia.Recibidos}}</td><td>{{agencia.AgenciaCancelada}}</td><td>{{agencia.FechaServicio}}</td><td>{{agencia.AgenciaCancelada}}</td></tr>
                         </tbody>
                     </table></div>
                 </div>
