@@ -143,7 +143,8 @@
             <section ng-controller="ReportCtrl">
                 <div class="panel fadein fadeout">
                     <h2>Reporte Casuistica</h2>
-                    <input ng-click="FillReport()" value="Obtener" type="button"/>
+                    <!--<input ng-click="FillReport()" value="Obtener" type="button" style="float: left"/>!-->
+                    <input ng-click="Download()" value="Obtener Excel" type="button" style="float: left"/>
                     <div class="datagrid"><table>
                         <thead>
                         <tr >
@@ -151,7 +152,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="agencia in agencias"><td>{{agencia.ID}}</td><td>{{agencia.Recibidos}}</td><td>{{agencia.AgenciaCancelada}}</td><td>{{agencia.FechaServicio}}</td><td>{{agencia.AgenciaCancelada}}</td></tr>
+                        <tr ng-repeat="agencia in agencias">
+                            <td>{{agencia.ID}}</td>
+                            <td>{{agencia.Recibidos}}</td>
+                            <td>{{agencia.AgenciaCancelada}}</td>
+                            <td>{{agencia.FechaServicio}}</td>
+                            <td>{{agencia.Duplicado}}</td>
+                            <td>{{agencia.DuplicadoConBaseAnterior}}</td>
+                            <td>{{agencia.Empresa_sin_contacto}}</td>
+                            <td>{{agencia.Error_Fecha_de_Servicio}}</td>
+                            <td>{{agencia.No_Contactar}</td>
+                            <td>{{agencia.Otra_Marca}</td>
+                            <td>{{agencia.Profeco}</td>
+
+                        </tr>
                         </tbody>
                     </table></div>
                 </div>

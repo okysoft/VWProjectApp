@@ -48,6 +48,10 @@ app.controller("UploadBD",function($scope, $rootScope)
 
     $scope.procesar = function(type)
     {
+
+
+
+
         switch(type)
         {
             case 1:
@@ -105,9 +109,71 @@ app.controller("UploadBD",function($scope, $rootScope)
 
                     row.ID = concesionarios[i].No_Concesionario;
                     row.Recibidos = registros.length;
-                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'AGENCIA cancelada'}).ToArray().length;
-                    row.FechaServicio = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'FECHA SERVICIO Invalida'}).ToArray().length;
-                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){x['STATUS DE DEPURACIÓN'] == 'NO CONTACTAR'}).ToArray().length;
+                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){ return x['STATUS DE DEPURACIÓN'] == 'AGENCIA cancelada' }).ToArray().length;
+                    row.FechaServicio = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'FECHA SERVICIO Invalida'}).ToArray().length;
+                    row.Duplicado = 0;
+                    row.DuplicadoConBaseAnterior = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Vin duplicado con base 2'}).ToArray().length;
+                    row.Empresa_sin_contacto = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'S'}).ToArray().length;
+                    row.Error_Fecha_de_Servicio = 0;
+                    row.No_Contactar =Enumerable.From(estatusDepuracion).Where(function(x){ return x['STATUS DE DEPURACIÓN'] == 'NO CONTACTAR' }).ToArray().length;
+                    row.Otra_Marca = 0;
+                    row.Profeco = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Telefono duplicado contra PROFECO'}).ToArray().length;
+                    row.Tipo_Servicio = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'TIPO SERVICIO 8'}).ToArray().length;
+                    row.Sin_Tipo_Servicio = 0;
+                    row.Sin_Consecionaria = 0;
+                    row.Sin_Modelo = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Sin MODELO'}).ToArray().length;
+                    row.Sin_Nombre = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Sin contacto'}).ToArray().length;
+                    row.Sin_Telefono = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Sin telefono'}).ToArray().length;
+                    row.Tel_Dup_dif_Nom_y_chasis = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Nombre/telefono duplicado'}).ToArray().length;
+                    row.Tel_VW_Bank_Leasing = 0;
+                    row.Tel_VW_México =  0;
+                    row.Teléfono_incompleto = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Telefono incompleto'}).ToArray().length;
+
+                    row.Status_Efectivo = Enumerable.From(estatusMarcacion).Where(function(x){return x['Estatus'] == '7.Llamar mas tarde (CITA PROGRAMADA)'}).ToArray().length;
+                    row.Validados = Enumerable.From(estatusMarcacion).Where(function(x){return x['Estatus'] == 'Entrevista Completa'}).ToArray().length;
+                    row.Auto_no_entregado_No_Val = 0;
+                    row.Agregar_a_lista_de_no_llamar = 0;
+                    row.Barrera_de_Idioma= 0;
+                    row.Buzón= 0;
+                    row.Comunicación_Difícil_Imposible_Escuchar= 0;
+                    row.Difícil_de_Localizar_De_Viaje_Vacaciones= 0;
+                    row.Encuestado= 0;
+                    row.Entrevista_Cancelada_por_Supervisor= 0;
+                    row.Entrevista_Revisada= 0;
+                    row.Equivocado= 0;
+                    row.FaxModem= 0;
+                    row.Finado= 0;
+                    row.Fuera_de_servicio= 0;
+                    row.Garantía_Ventas_Llamar_mas_tarde= 0;
+                    row.NA_Sobrecuota= 0;
+                    row.No_contesta= 0;
+                    row.No_Contesto_encuesta= 0;
+                    row.No_Enlaza_Teléfono= 0;
+                    row.No_existe= 0;
+                    row.No_le_interesa= 0;
+                    row.No_se_encuentra= 0;
+                    row.No_terminó_encuesta= 0;
+                    row.Numero_no_disponible= 0;
+                    row.Numero_restringido= 0;
+                    row.Ocupado= 0;
+                    row.Rehusa_Continuar_Cortó_Entrevista= 0;
+                    row.Sin_Extension= 0;
+                    row.Sin_Marcar= 0;
+                    row.Termino_en_SC0= 0;
+                    row.Termino_en_SC01A= 0;
+                    row.Termino_en_SC0A= 0;
+                    row.Teléfono_Concesionario= 0;
+                    row.Tiempo_de_Entrevista_Agotado= 0;
+                    row.Servicio_no_realizado= 0;
+                    row.No_coincide_Marca_Concesionaria= 0;
+
+
+
+
+
+
+
+
 
 
 
@@ -119,6 +185,7 @@ app.controller("UploadBD",function($scope, $rootScope)
                 alert("Generado");
                 break;
         }
+
     }
 
     $scope.change= function(option){
@@ -414,6 +481,84 @@ app.controller('ReportCtrl', function($scope, $rootScope){
 
     $scope.csColNames = [];
     $scope.agencias = [];
+
+    $scope.Download = function()
+    {
+        JSONToCSVConvertor(JSON.stringify($rootScope.csReport), "Casuistica", true);
+
+        function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+            //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+            var CSV = '';
+            //Set Report title in first row or line
+
+            CSV += ReportTitle + '\r\n\n';
+
+            //This condition will generate the Label/Header
+            if (ShowLabel) {
+                var row = "";
+
+                //This loop will extract the label from 1st index of on array
+                for (var index in arrData[0]) {
+
+                    //Now convert each value to string and comma-seprated
+                    row += index + ',';
+                }
+
+                row = row.slice(0, -1);
+
+                //append Label row with line break
+                CSV += row + '\r\n';
+            }
+
+            //1st loop is to extract each row
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+
+                //2nd loop will extract each column and convert it in string comma-seprated
+                for (var index in arrData[i]) {
+                    row += '"' + arrData[i][index] + '",';
+                }
+
+                row.slice(0, row.length - 1);
+
+                //add a line break after each row
+                CSV += row + '\r\n';
+            }
+
+            if (CSV == '') {
+                alert("Invalid data");
+                return;
+            }
+
+            //Generate a file name
+            var fileName = "IPSOS_VW_";
+            //this will remove the blank-spaces from the title and replace it with an underscore
+            fileName += ReportTitle.replace(/ /g,"_");
+
+            //Initialize file format you want csv or xls
+            var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+            // Now the little tricky part.
+            // you can use either>> window.open(uri);
+            // but this will not work in some browsers
+            // or you will not get the correct file extension
+
+            //this trick will generate a temp <a /> tag
+            var link = document.createElement("a");
+            link.href = uri;
+
+            //set the visibility hidden so it will not effect on your web-layout
+            link.style = "visibility:hidden";
+            link.download = fileName + ".csv";
+
+            //this part will append the anchor tag and remove it after automatic click
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
     $scope.FillReport = function()
     {
         var he = $rootScope.csReport[0];
