@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="VWAppLog">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -8,22 +8,51 @@
 </head>
 <body>
 <div style="text-align: center; align-content: center; position: relative;width: 100%; float:right;" align="center"/>
+<script>
+    var app = angular.module('VWAppLog',[]);
+    app.controller('Init', function($scope) {
+        $scope.login = function () {
+            var ws = new WebSocket("ws://localhost:9001");
+            ws.onopen = function()
+            {
+                var data = { UserName: $scope.user.username,Password: $scope.user.password};
+                var text = JSON.stringify(data);
+                // Web Socket is connected, send data using send()
+                ws.send("LOGIN " + text);
 
+            };
+            ws.onmessage = function (evt)
+            {
+                var received_msg = evt.data;
+                alert("Message is received... ");
+            };
+            ws.onclose = function()
+            {
+                // websocket is closed.
+                alert("Connection is closed...");
+            };
+            ws.onerror = function(e, msg)
+            {
+                alert(e.message);
+            }
+        }
+    });
+</script>
     <div align="center" style="width: 100%; float: right">
         <div style="float: left">
             <img src="img/dasautosmall.png">
         </div>
-        <div style="float: left;position: relative;">
+        <div style="float: left;position: relative;" ng-controller="Init">
             <div style="padding-top: 4em; width: 100%;">
                 <span>Usuario : </span>
-                <input type="text" id="userText"/>
+                <input type="text" ng-model="user.username"/>
             </div>
             <div style="width:100%;">
                 <span>Password : </span>
-                <input type="text" id="userPassword"/>
+                <input type="password" ng-model="user.password"/>
             </div>
             <div style="float:right;">
-                <button value="Login" onclick="window.location='VWApp.html'">Login</button>
+                <button value="Login" ng-click="login()">Login</button>
             </div>
         </div>
     </div>

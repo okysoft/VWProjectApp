@@ -3,6 +3,37 @@
  */
 var app = angular.module('VWApp',[]);
 
+
+app.controller('TestWS', function($scope){
+    $scope.testWS = function () {
+        {
+            var ws = new WebSocket("ws://localhost:9001");
+            ws.onopen = function()
+            {
+                var data = {Name: 'intarget', UserName:'intarget',Password:'intarget'};
+                var text = JSON.stringify(data);
+                // Web Socket is connected, send data using send()
+                ws.send("LOGIN " + text);
+                alert("Message is sent...");
+            };
+            ws.onmessage = function (evt)
+            {
+                var received_msg = evt.data;
+                alert("Message is received...");
+            };
+            ws.onclose = function()
+            {
+                // websocket is closed.
+                alert("Connection is closed...");
+            };
+            ws.onerror = function(e, msg)
+            {
+                alert(e.message);
+            }
+        }
+    }
+});
+
 app.controller('TabCtrl', function($scope){
     $scope.tab = 1;
 
@@ -18,14 +49,17 @@ app.controller('TabCtrl', function($scope){
 
 app.controller('MenuCtrl', function($scope){
 
-    $scope.modules = [{id: 1, src:'img/home.png', displayText: 'Home'},
-        {id: 2, src:'img/reportes.png', displayText: 'Reportes'},
+
+    $scope.modules = [{id: 1, src:'img/home.png', displayText: 'Hola'},
+        {id: 2, src:'img/reportes.png', displayText: 'REPO'},
         {id: 3, src:'img/graficas.png', displayText: 'Graficas'},
         {id: 4, src:'img/telefono.png', displayText: 'Audios'},
         {id: 5, src:'img/upload.png', displayText: 'Carga'},
         {id: 6, src:'img/password.png', displayText: 'Password'},
         {id: 7, src:'img/config.png', displayText: 'Configuración'}];
+
     $scope.segment = 1;
+
     $scope.menuClick = function( option ) {
         $scope.segment = option;
     };
@@ -48,141 +82,10 @@ app.controller("UploadBD",function($scope, $rootScope)
 
     $scope.procesar = function(type)
     {
-
-
-
-
         switch(type)
         {
             case 1:
-                $scope.dataLoading = true;
-                var concesionarios = Enumerable.From($scope.cBase.Base)
-                    .Distinct(function (x) {
-                        return x.No_Concesionario
-                    })
-                    .Where(function (x) {
-                        return x.No_Concesionario != undefined
-                    })
-                    .Select(function (x) {
-                        var concesionario = {};
-                        concesionario.No_Concesionario = x.No_Concesionario
-                        return concesionario
-                    })
-                    .ToArray();
 
-                $scope.casuiticaReport=[];
-                for(var i = 0; i < concesionarios.length; i++)
-                {
-                    var registros = Enumerable.From($scope.cBase.Base)
-                        .Where(function (x) {
-                            return x.No_Concesionario == concesionarios[i].No_Concesionario
-                        })
-                        .Select(function (x) { return x })
-                        .ToArray();
-
-                    var row = {};
-                    var funicos = Enumerable.From(registros)
-                        .Select(function (x) { return x.FUNICO })
-                        .ToArray();
-
-                    var estatusDepuracion = Enumerable.From($scope.cBase.EstatusDepuracion)
-                        .Where(function(x){
-                            if(funicos.indexOf(x.FUNICO) > -1){
-                                return true;
-                            }else{
-                                return false;
-                            }
-                        })
-                        .Select(function (x) { return x })
-                        .ToArray();
-
-                    var estatusMarcacion = Enumerable.From($scope.cBase.EstatusMarcacion)
-                        .Where(function(x){
-                            if(funicos.indexOf(x.FUNICO) > -1){
-                                return true;
-                            }else{
-                                return false;
-                            }
-                        })
-                        .Select(function (x) { return x })
-                        .ToArray();
-
-                    row.ID = concesionarios[i].No_Concesionario;
-                    row.Recibidos = registros.length;
-                    row.AgenciaCancelada = Enumerable.From(estatusDepuracion).Where(function(x){ return x['STATUS DE DEPURACIÓN'] == 'AGENCIA cancelada' }).ToArray().length;
-                    row.FechaServicio = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'FECHA SERVICIO Invalida'}).ToArray().length;
-                    row.Duplicado = 0;
-                    row.DuplicadoConBaseAnterior = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Vin duplicado con base 2'}).ToArray().length;
-                    row.Empresa_sin_contacto = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'S'}).ToArray().length;
-                    row.Error_Fecha_de_Servicio = 0;
-                    row.No_Contactar =Enumerable.From(estatusDepuracion).Where(function(x){ return x['STATUS DE DEPURACIÓN'] == 'NO CONTACTAR' }).ToArray().length;
-                    row.Otra_Marca = 0;
-                    row.Profeco = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Telefono duplicado contra PROFECO'}).ToArray().length;
-                    row.Tipo_Servicio = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'TIPO SERVICIO 8'}).ToArray().length;
-                    row.Sin_Tipo_Servicio = 0;
-                    row.Sin_Consecionaria = 0;
-                    row.Sin_Modelo = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Sin MODELO'}).ToArray().length;
-                    row.Sin_Nombre = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Sin contacto'}).ToArray().length;
-                    row.Sin_Telefono = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Sin telefono'}).ToArray().length;
-                    row.Tel_Dup_dif_Nom_y_chasis = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Nombre/telefono duplicado'}).ToArray().length;
-                    row.Tel_VW_Bank_Leasing = 0;
-                    row.Tel_VW_México =  0;
-                    row.Teléfono_incompleto = Enumerable.From(estatusDepuracion).Where(function(x){return x['STATUS DE DEPURACIÓN'] == 'Telefono incompleto'}).ToArray().length;
-
-                    row.Status_Efectivo = Enumerable.From(estatusMarcacion).Where(function(x){return x['Estatus'] == '7.Llamar mas tarde (CITA PROGRAMADA)'}).ToArray().length;
-                    row.Validados = Enumerable.From(estatusMarcacion).Where(function(x){return x['Estatus'] == 'Entrevista Completa'}).ToArray().length;
-                    row.Auto_no_entregado_No_Val = 0;
-                    row.Agregar_a_lista_de_no_llamar = 0;
-                    row.Barrera_de_Idioma= 0;
-                    row.Buzón= 0;
-                    row.Comunicación_Difícil_Imposible_Escuchar= 0;
-                    row.Difícil_de_Localizar_De_Viaje_Vacaciones= 0;
-                    row.Encuestado= 0;
-                    row.Entrevista_Cancelada_por_Supervisor= 0;
-                    row.Entrevista_Revisada= 0;
-                    row.Equivocado= 0;
-                    row.FaxModem= 0;
-                    row.Finado= 0;
-                    row.Fuera_de_servicio= 0;
-                    row.Garantía_Ventas_Llamar_mas_tarde= 0;
-                    row.NA_Sobrecuota= 0;
-                    row.No_contesta= 0;
-                    row.No_Contesto_encuesta= 0;
-                    row.No_Enlaza_Teléfono= 0;
-                    row.No_existe= 0;
-                    row.No_le_interesa= 0;
-                    row.No_se_encuentra= 0;
-                    row.No_terminó_encuesta= 0;
-                    row.Numero_no_disponible= 0;
-                    row.Numero_restringido= 0;
-                    row.Ocupado= 0;
-                    row.Rehusa_Continuar_Cortó_Entrevista= 0;
-                    row.Sin_Extension= 0;
-                    row.Sin_Marcar= 0;
-                    row.Termino_en_SC0= 0;
-                    row.Termino_en_SC01A= 0;
-                    row.Termino_en_SC0A= 0;
-                    row.Teléfono_Concesionario= 0;
-                    row.Tiempo_de_Entrevista_Agotado= 0;
-                    row.Servicio_no_realizado= 0;
-                    row.No_coincide_Marca_Concesionaria= 0;
-
-
-
-
-
-
-
-
-
-
-
-                    $scope.casuiticaReport.push(row);
-
-                }
-                $rootScope.csReport = $scope.casuiticaReport;
-                $scope.dataLoading = false;
-                alert("Generado");
                 break;
         }
 
@@ -199,6 +102,7 @@ app.controller("UploadBD",function($scope, $rootScope)
             var reader = new FileReader();
             var file = $scope.files[0];
             $scope.casuisticaAnalisis.nombreArchivo = file.name;
+
             function to_json(workbook) {
                 var result = {};
                 workbook.SheetNames.forEach(function(sheetName) {
@@ -210,14 +114,14 @@ app.controller("UploadBD",function($scope, $rootScope)
                 return result;
             }
             /*function _arrayBufferToBase64( buffer ) {
-                var binary = '';
-                var bytes = new Uint8Array( buffer );
-                var len = bytes.byteLength;
-                for (var i = 0; i < len; i++) {
-                    binary += String.fromCharCode( bytes[ i ] );
-                }
-                return btoa( binary );
-            }*/
+             var binary = '';
+             var bytes = new Uint8Array( buffer );
+             var len = bytes.byteLength;
+             for (var i = 0; i < len; i++) {
+             binary += String.fromCharCode( bytes[ i ] );
+             }
+             return btoa( binary );
+             }*/
 
             reader.onload = function(e) {
                 var data = e.target.result;

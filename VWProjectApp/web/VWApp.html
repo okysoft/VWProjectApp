@@ -31,12 +31,13 @@
     </div>
     <div id = "contentPrincipal" class="content" >
 
-        <div id="homeDiv" class="content"  ng-show="  segment == 1">
+        <div id="homeDiv" class="content"  ng-show="  segment == 1" ng-controller="TestWS">
             <p>
                 Bienvenido al Reporteador Volkswagen
             </p>
             <p>
                 En este reporteador puede cargar o escuchar los audios
+                <input type="button" ng-click="testWS()"/>
             </p>
         </div>
         <div id="loadDiv" ng-show="segment == 5" class="content" ng-controller="UploadBD">
@@ -54,9 +55,9 @@
                     <form name="uploadForm">
                         <div style="float: left">
                             <select ng-model="opt" ng-change="change(opt)">
-                                <option value="1">Base Casuistica</option>
-                                <option value="2">Base Grabaciones Ventas Pasajeros</option>
-                                <option value="3">Base Grabaciones Servicio Pasajeros</option>
+                                <option value="1">Base Original</option>
+                                <option value="2">Base Depuración</option>
+                                <option value="3">Base Marcación</option>
                             </select>
                         </div>
                         <div style="float: left; padding-left: 1em;">
@@ -143,7 +144,7 @@
             <section ng-controller="ReportCtrl">
                 <div class="panel fadein fadeout">
                     <h2>Reporte Casuistica</h2>
-                    <!--<input ng-click="FillReport()" value="Obtener" type="button" style="float: left"/>!-->
+                    <input ng-click="FillReport()" value="Obtener" type="button" style="float: left"/>
                     <input ng-click="Download()" value="Obtener Excel" type="button" style="float: left"/>
                     <div class="datagrid"><table>
                         <thead>
