@@ -385,10 +385,155 @@ app.controller('ReportCtrl', function($scope, $rootScope){
 
     $scope.csColNames = [];
     $scope.agencias = [];
+    $scope.bdData = [];
+
+    $scope.FindMarcacion = function () {
+        var property = "";
+        var wherex = "";
+        var valuex = $scope.searchs.dialvalue;
+        switch (Number($scope.searchs.dialfilter)) {
+            case 0  : property="STATUSEFECTIVO"; break;
+            case 1  : property="VALIDADOS"; break;
+            case 2  : property="AUTONOENTREGADO"; break;
+            case 3  : property="AGREGARLISTANOLLAMAR"; break;
+            case 4  : property="BARRERAIDIOMA"; break;
+            case 5  : property="BUZON"; break;
+            case 6  : property="COMUNICACIONDIFICIL"; break;
+            case 7  : property="DIFICILLOCALIZAR"; break;
+            case 8  : property="ENCUESTADO"; break;
+            case 9  : property="EQUIVOCADO"; break;
+            case 10  : property="FAXMODEM"; break;
+            case 11 : property="FINADO"; break;
+            case 12  : property="FUERASERVICIO"; break;
+            case 13  : property="GARANTIAVENTAS"; break;
+            case 14  : property="LLAMARTARDE"; break;
+            case 15  : property="NASOBRECUOTA"; break;
+            case 16  : property="NOCONTESTA"; break;
+            case 17  : property="NOCONTESTOENCUESTA"; break;
+            case 18  : property="NOENLAZATELEFONO"; break;
+            case 19  : property="NOEXISTE"; break;
+            case 20  : property="NOLEINTERESA"; break;
+            case 21 : property="NOSEENCUENTRA"; break;
+            case 22 : property="NOTERMINOENCUESTA"; break;
+            case 23 : property="NUMERONODISPONIBLE"; break;
+            case 24 : property="NUMERORESTRINGIDO"; break;
+            case 25 : property="OCUPADO"; break;
+            case 26 : property="SINEXTENSION"; break;
+            case 27 : property="SINMARCAR"; break;
+            case 28 : property="TELEFONOCONCESIONARIO"; break;
+            case 29 : property="SERVICIONOREALIZADO"; break;
+            case 30 : property="NOCOINCIDEMARCA"; break;
+
+        }
+
+        switch (Number($scope.searchs.dialwhere))
+        {
+            case 1:
+                wherex = " == ";
+                break;
+            case 2:
+                wherex = " < ";
+                break;
+            case 3:
+                wherex = " > ";
+                break;
+        }
+
+
+
+
+        var query = '$.'+property + ' ' + wherex + ' ' + valuex;
+        var concecionario = Enumerable.From($scope.bdData)
+            .Where(query)
+            //.Where(function (x) { return x.DEALERID == $scope.searchs.dealerID })
+            .Select(function (x) { return x })
+            .ToArray();
+        $scope.agencias = [];
+        $scope.agencias = concecionario;
+        $scope.$apply();
+
+    }
+
+    $scope.FindDFilterDep = function()
+    {
+        var property = "";
+        var wherex = "";
+        var valuex = $scope.searchs.depuvalue;
+        switch (Number($scope.searchs.depufilter)) {
+            case 0 : property="RECIBIDOS"; break;
+            case 1 : property="APTOS"; break;
+            case 2 : property="AGENCIACANCELADA"; break;
+            case 3 : property="DUPLICADO"; break;
+            case 4 : property="DUPLICADOBASEANTERIOR"; break;
+            case 5 : property="DUPLICADOBASEEFECTIVA"; break;
+            case 6 : property="EMPRESASINCONTACTO"; break;
+            case 7 : property="ERRORFECHASERVICIO"; break;
+            case 8 : property="FLOTILLA"; break;
+            case 9 : property="FLOTILLANOVALIDADA"; break;
+            case 10 : property="NOCONTACTAR"; break;
+            case 11 : property="OTRAMARCA"; break;
+            case 12 : property="PROFECO"; break;
+            case 13 : property="SERVICIOINTERNO"; break;
+            case 14 : property="SINCONCESIONARIA"; break;
+            case 15 : property="SINMODELO"; break;
+            case 16 : property="SINNOMBRE"; break;
+            case 17 : property="SINTELEFONO"; break;
+            case 18 : property="TELSUGPORVW"; break;
+            case 19 : property="TELDUPDIFNOMYCHASIS"; break;
+            case 20 : property="TELVWBANK"; break;
+            case 21 : property="TELVWMEXICO"; break;
+            case 22 : property="TELEFONOINCOMPLETO"; break;
+        }
+
+        switch (Number($scope.searchs.depuwhere))
+        {
+            case 1:
+                wherex = " == ";
+                break;
+            case 2:
+                wherex = " < ";
+                break;
+            case 3:
+                wherex = " > ";
+                break;
+        }
+
+
+
+
+        var query = '$.'+property + ' ' + wherex + ' ' + valuex;
+        var concecionario = Enumerable.From($scope.bdData)
+            .Where(query)
+            //.Where(function (x) { return x.DEALERID == $scope.searchs.dealerID })
+            .Select(function (x) { return x })
+            .ToArray();
+        $scope.agencias = [];
+        $scope.agencias = concecionario;
+        $scope.$apply();
+    }
+
+    $scope.ClearFilter= function()
+    {
+        $scope.agencias = [];
+        $scope.agencias= $scope.bdData;
+        $scope.$apply();
+    }
+
+    $scope.FindDealer = function()
+    {
+        var concecionario = Enumerable.From($scope.bdData)
+            .Where(function (x) { return x.DEALERID == $scope.searchs.dealerID })
+            .Select(function (x) { return x })
+            .FirstOrDefault();
+        $scope.agencias = [];
+        $scope.agencias.push(concecionario);
+        $scope.$apply();
+
+    }
 
     $scope.Download = function()
     {
-        JSONToCSVConvertor(JSON.stringify($rootScope.csReport), "Casuistica", true);
+        JSONToCSVConvertor(JSON.stringify($scope.agencias), "Casuistica", true);
 
         function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
             //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
@@ -465,12 +610,86 @@ app.controller('ReportCtrl', function($scope, $rootScope){
     }
     $scope.FillReport = function()
     {
-        var he = $rootScope.csReport[0];
-        for (var h in he) {
-            $scope.csColNames.push(h);
+
+        var ws = new WebSocket("ws://173.248.133.19:9096//websocket");
+        //var ws = new WebSocket("ws://localhost:9096//websocket");
+        ws.onopen = function()
+        {
+            var data = { Medicion:'bla'};
+            var text = JSON.stringify(data);
+            // Web Socket is connected, send data using send()
+            ws.send("GETCASUISTICA " + text);
+        };
+        ws.onmessage = function (evt)
+        {
+            var received_msg = evt.data;
+            var lista = JSON.parse(received_msg)
+
+            var he = lista[0];
+            for (var h in he) {
+                if(h == 'REGION')
+                {
+
+                }
+                else {
+                    $scope.csColNames.push(h);
+                }
+            }
+
+            $scope.bdData = lista;
+            $scope.agencias = lista;
+            $scope.$apply();
+
+        };
+        ws.onclose = function()
+        {
+            // websocket is closed.
+            alert("Connection is closed...");
+        };
+        ws.onerror = function(e, msg)
+        {
+            alert(e.message);
         }
 
-        $scope.agencias = $rootScope.csReport;
 
     }
+});
+
+
+app.controller('AudioCtrl', function($scope)
+{
+    $scope.listaAudios = [];
+    $scope.csColNames2 = [];
+   $scope.LlenarAudios = function()
+   {
+       var ws = new WebSocket("ws://localhost:9001");
+       ws.onopen = function()
+       {
+           var data = { Medicion:'bla'};
+           var text = JSON.stringify(data);
+           // Web Socket is connected, send data using send()
+           ws.send("GETCASUISTICA " + text);
+       };
+       ws.onmessage = function (evt)
+       {
+           var received_msg = evt.data;
+           var lista = JSON.parse(received_msg)
+           var he = lista[0];
+           for (var h in he) {
+               $scope.csColNames2.push(h);
+           }
+           $scope.listaAudios = lista;
+           $scope.$apply();
+
+       };
+       ws.onclose = function()
+       {
+           // websocket is closed.
+           alert("Connection is closed...");
+       };
+       ws.onerror = function(e, msg)
+       {
+           alert(e.message);
+       }
+   }
 });
