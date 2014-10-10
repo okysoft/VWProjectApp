@@ -10,7 +10,11 @@
     <script src="scripts/libs/jszip.js"></script>
     <script src="scripts/libs/xlsx.js"></script>
     <script src="scripts/libs/linq.js"></script>
+    <script src="scripts/libs/audio.js"></script>
     <script src="app.js"></script>
+    <style>
+        .audiojsZ audio { position: 500px; left: -1px; }
+    </style>
 </head>
 <body>
 <div id="App">
@@ -143,28 +147,72 @@
 
         </div>
 
-        <div id="audioDiv" class="content" ng-show="segment == 4">
-            <section ng-controller="AudioCtrl">
+        <div id="audioDiv" class="content" ng-show="segment == 4" ng-controller="AudioCtrl">
+            <div ng-if="dataLoading" class="waitMask">
+                <div style="top:50%; left: 50%; position: absolute;">
+                    <img src="img/loading_a.gif" style="width: 40px; height: 40px;">
+                </div>
+            </div>
+            <section>
                 <div class="panel fadein fadeout">
                     <h2>Reporte Audios</h2>
 
-                    <input ng-click="LlenarAudios()" value="Obtener Audios" type="button" style="float: left"/>
-                    <br>
-                    <div class="datagrid"><table>
-                        <thead>
-                        <tr >
-                            <th ng-repeat="csCol in csColNames2">{{csCol}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="audiox in listaAudios">
-                            <td>{{audiox.ID}}</td>
-                            <td>{{audiox.Nombre}}</td>
-                            <td>{{audiox.URL}}</td>
-                            <td>{{audiox.IDX}}</td>
-                        </tr>
-                        </tbody>
-                    </table></div>
+
+                    <input type="button" ng-click="GetAudios()"  value ="Obtener Audios">
+                    <div id="audiojsZ" style="padding-top: 1em; padding-bottom: 0.5em;">
+
+                        <audio preload ="none"/>
+
+                    </div>
+
+                     <br/>
+
+                    <!-- <div id="com"  ng-app="" ng-controller="PlayingSong"> !-->
+
+
+                        Buscar: <input type="text" ng-model="na">
+
+                        <br/>
+                        <div>
+                            <div class="datagrid" style="overflow: auto; width:1000px;height:300px;">
+                        <table>
+
+                            <tr ng-repeat="x in name | filter:na">
+
+                                <td>
+                                    <input   type="checkbox"  ng-click="CargaPista(x.NAMEAUDIO, x.URLGUID,  sta)"  ng-disabled="x.STATUSNEW"  />
+                                </td>
+
+                                <td>{{x.NAMEAUDIO}}</td>
+
+                                <td>{{x.URLGUID}}</td>
+
+                                <td>{{x.CONCESIONARIA}}</td>
+
+                                <td>{{x.CHASIS}}</td>
+
+                                <td>{{x.NOMBRE}}</td>
+
+                                <td>{{x.EDAD}}</td>
+
+                                <td>{{x.SEXO}}</td>
+
+                                <td>{{x.ESTADO}}</td>
+
+                                <td>{{x.ASESOR}}</td>
+
+                                <td>
+                                    <input  type="image" src="img/download.png" ng-click="descarga()" style="width :20px ; height : 20px " />
+                                </td>
+
+                            </tr>
+                        </table>
+
+                                </div>
+
+
+
+                    </div>
                 </div>
             </section>
         </div>

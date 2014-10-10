@@ -47,7 +47,10 @@ app.controller('TabCtrl', function($scope){
     };
 });
 
-app.controller('MenuCtrl', function($scope){
+app.controller('MenuCtrl', function($scope, $rootScope){
+
+    $rootScope.wsURL = "ws://localhost:9096//websocket";
+    //$rootScope.wsURL = "ws://173.248.133.19:9096//websocket";
 
 
     $scope.modules = [{id: 1, src:'img/home.png', displayText: 'Hola'},
@@ -611,8 +614,7 @@ app.controller('ReportCtrl', function($scope, $rootScope){
     $scope.FillReport = function()
     {
 
-        var ws = new WebSocket("ws://173.248.133.19:9096//websocket");
-        //var ws = new WebSocket("ws://localhost:9096//websocket");
+        var ws = new WebSocket($rootScope.wsURL);
         ws.onopen = function()
         {
             var data = { Medicion:'bla'};
@@ -656,11 +658,159 @@ app.controller('ReportCtrl', function($scope, $rootScope){
 });
 
 
-app.controller('AudioCtrl', function($scope)
+app.controller('AudioCtrl', function($scope, $rootScope)
 {
     $scope.listaAudios = [];
     $scope.csColNames2 = [];
-   $scope.LlenarAudios = function()
+
+    $scope.dataLoading = false;
+
+    var a = audiojs.createAll();
+    $scope.audio = a[0];
+
+
+    $scope.sta = false; //status de bloque de audio
+    $scope.csColNamesAudio = [];
+
+    $scope.name  = [];
+
+    $scope.GetAudios = function()
+    {
+        var ws = new WebSocket($rootScope.wsURL);
+        ws.onopen = function()
+        {
+            var data = { Medicion:'bla'};
+            var text = JSON.stringify(data);
+            // Web Socket is connected, send data using send()
+            $scope.dataLoading = true;
+            $scope.$apply();
+            ws.send("GETAUDIO " + text);
+        };
+        ws.onmessage = function (evt)
+        {
+            var received_msg = evt.data;
+            var audioData = JSON.parse(received_msg)
+
+            var he = audioData[0];
+            for (var h in he) {
+               $scope.csColNamesAudio.push(h);
+            }
+            $scope.dataLoading = false;
+            for(var i = 0; i < audioData.length; i++)
+            {
+                audioData[i].STATUSNEW = false;
+            }
+
+            $scope.name = audioData;
+            $scope.$apply();
+
+        };
+        ws.onclose = function()
+        {
+            // websocket is closed.
+            $scope.dataLoading = false;
+            $scope.$apply();
+            alert("Connection is closed...");
+
+        };
+        ws.onerror = function(e, msg)
+        {
+            $scope.dataLoading = false;
+            $scope.$apply();
+            alert(e.message);
+        }
+    };
+
+    $scope.CargaPista = function (rt , urlg, st) {
+
+
+        var ws = new WebSocket($rootScope.wsURL);
+        ws.onopen = function()
+        {
+            //var data = { audioname:rt };
+            //var text = JSON.stringify(data);
+            // Web Socket is connected, send data using send()
+            if(st == false) {
+                $scope.dataLoading = true;
+                $scope.$apply();
+                $scope.audio.playPause();
+                ws.send("GETMP3 " + rt + " " + urlg);
+            }
+            else
+            {
+                $scope.sta = false;
+                $scope.sta = false;
+                $scope.$apply();
+                $scope.bloqueo(rt , $scope.sta);
+            }
+        };
+        ws.onmessage = function (evt)
+        {
+            var received_msg = evt.data;
+
+            if (st == false) {
+                $scope.audio.load('Audios/'+received_msg);
+                $scope.audio.play();
+                $scope.sta = true;
+                $scope.$apply();
+                $scope.bloqueo(rt , $scope.sta);
+
+            } else {
+                $scope.sta = false;
+                $scope.$apply();
+                $scope.bloqueo(rt , $scope.sta);
+            }
+            $scope.dataLoading = false;
+            $scope.$apply();
+        };
+        ws.onclose = function()
+        {
+            // websocket is closed.
+            $scope.dataLoading = false;
+            $scope.$apply();
+            alert("Connection is closed...");
+
+        };
+        ws.onerror = function(e, msg)
+        {
+            $scope.dataLoading = false;
+            $scope.$apply();
+            alert(e.message);
+
+        }
+
+
+        $scope.bloqueo = function (song, st) {
+
+            var leng = $scope.name.length;
+
+            for (var i = 0; i < leng ; i++) {
+
+                if (st == true) {
+                    if (song != $scope.name[i].NAMEAUDIO) {
+                        $scope.name[i].STATUSNEW = true
+                        $scope.$apply();
+                    }
+                } else {
+                    $scope.name[i].STATUSNEW = false
+                    $scope.$apply();
+
+                }
+
+            }
+        };
+
+    };
+
+
+
+    $scope.descarga = function(){
+
+        alert('entre')
+
+    };
+
+    $scope.LlenarAudios = function()
    {
        var ws = new WebSocket("ws://localhost:9001");
        ws.onopen = function()
