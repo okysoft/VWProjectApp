@@ -68,8 +68,10 @@
             <div class="loaded"></div> \
           </div> \
           <div class="time"> \
-            <em class="played">00:00</em>/<strong class="duration">00:00</strong> \
+            <em class="played">00:00</em><strong class="duration">00:00</strong> \
           </div> \
+        <div class="logo"> \
+        </div> \
           <div class="error-message"></div>',
         playPauseClass: 'play-pause',
         scrubberClass: 'scrubber',
@@ -83,35 +85,43 @@
         loadingClass: 'loading',
         errorClass: 'error'
       },
+
       // The css used by the default player. This is is dynamically injected into a `<style>` tag in the top of the head.
       css: '\
         .audiojs audio { position: absolute; left: -1px; } \
-        .audiojs { width: 460px; height: 36px; background: #404040; overflow: hidden; font-family: monospace; font-size: 12px; \
-          background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #444), color-stop(0.5, #555), color-stop(0.51, #444), color-stop(1, #444)); \
-          background-image: -moz-linear-gradient(center top, #444 0%, #555 50%, #444 51%, #444 100%); \
-          -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); -moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); \
-          -o-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); } \
-        .audiojs .play-pause { width: 25px; height: 40px; padding: 4px 6px; margin: 0px; float: left; overflow: hidden; border-right: 1px solid #000; } \
+        .audiojs { width: 700px; height: 61px; background: #404040; overflow: hidden; font-family: monospace; font-size: 12px; \
+           background: #444;\
+        background: -moz-linear-gradient(top, #444, #111);\
+    background: -o-linear-gradient(top, #444, #111);\
+    background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#111));\
+    border: 0;\
+  -moz-border-radius: 6px 6px 0 0;\
+  -webkit-border-radius: 6px 6px 0 0;\
+  border-radius: 6px 6px 6px 6px;\
+    position: relative;} \
+        .audiojs .play-pause { width: 0px; height: 68px; padding: 9px 52px 0px 31px; margin: 0px; float: left; overflow: hidden;  } \
         .audiojs p { display: none; width: 25px; height: 40px; margin: 0px; cursor: pointer; } \
         .audiojs .play { display: block; } \
-        .audiojs .scrubber { position: relative; float: left; width: 280px; background: #5a5a5a; height: 14px; margin: 10px; border-top: 1px solid #3f3f3f; border-left: 0px; border-bottom: 0px; overflow: hidden; } \
-        .audiojs .progress { position: absolute; top: 0px; left: 0px; height: 14px; width: 0px; background: #ccc; z-index: 1; \
+        .audiojs .scrubber { position: relative; float: left; width: 500px; background: #5a5a5a; height: 15px; margin: 19px; border-top: 1px solid #3f3f3f; border-left: 0px; border-bottom: 0px; overflow: hidden; } \
+        .audiojs .progress { position: absolute; top: 0px; left: 0px; height: 20px; width: 0px; background: #00CAD1; z-index: 1; \
           background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccc), color-stop(0.5, #ddd), color-stop(0.51, #ccc), color-stop(1, #ccc)); \
           background-image: -moz-linear-gradient(center top, #ccc 0%, #ddd 50%, #ccc 51%, #ccc 100%); } \
-        .audiojs .loaded { position: absolute; top: 0px; left: 0px; height: 14px; width: 0px; background: #000; \
+        .audiojs .loaded { position: absolute; top: 0px; left: 0px; height: 20px; width: 0px; background: #ccc; \
           background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222), color-stop(0.5, #333), color-stop(0.51, #222), color-stop(1, #222)); \
           background-image: -moz-linear-gradient(center top, #222 0%, #333 50%, #222 51%, #222 100%); } \
-        .audiojs .time { float: left; height: 36px; line-height: 36px; margin: 0px 0px 0px 6px; padding: 0px 6px 0px 12px; border-left: 1px solid #000; color: #ddd; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5); } \
+        .audiojs .time {position: absolute; line-height: 0px; margin: 46px 0px 0px -2px; padding: 0px 0px 0px 106px;  color: #ddd; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5); } \
+        .audiojs .logo { float: right; height: 36px; line-height: 18px; margin: 6px 21px 14px 0px; padding: 0px 5px 19px 13px; color: #ddd; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5); } \
         .audiojs .time em { padding: 0px 2px 0px 0px; color: #f9f9f9; font-style: normal; } \
-        .audiojs .time strong { padding: 0px 0px 0px 2px; font-weight: normal; } \
+        .audiojs .time strong { padding: 0px 0px 0px 423px; font-weight: normal; } \
         .audiojs .error-message { float: left; display: none; margin: 0px 10px; height: 36px; width: 400px; overflow: hidden; line-height: 36px; white-space: nowrap; color: #fff; \
           text-overflow: ellipsis; -o-text-overflow: ellipsis; -icab-text-overflow: ellipsis; -khtml-text-overflow: ellipsis; -moz-text-overflow: ellipsis; -webkit-text-overflow: ellipsis; } \
         .audiojs .error-message a { color: #eee; text-decoration: none; padding-bottom: 1px; border-bottom: 1px solid #999; white-space: wrap; } \
         \
-        .audiojs .play { background: url("$1") -2px -1px no-repeat; } \
-        .audiojs .loading { background: url("$1") -2px -31px no-repeat; } \
+        .audiojs .play { background: url("scripts/libs/ButtonsPlay.png"); background-size: 40px 40px; width:40px ; height:40px } \
+        .audiojs .loading { background: url("scripts/libs/ButtonLoading.gif"); background-size: 40px 40px; width:40px ; height:40px  } \
         .audiojs .error { background: url("$1") -2px -61px no-repeat; } \
-        .audiojs .pause { background: url("$1") -2px -91px no-repeat; } \
+        .audiojs .pause { background: url("scripts/libs/ButtonsPause.png"); background-size: 40px 40px; width:40px ; height:40px  } \
+        .audiojs .logo { background: url("scripts/libs/VW.png"); background-size: 48px 48px; width:48px ; height:48px  } \
         \
         .playing .play, .playing .loading, .playing .error { display: none; } \
         .playing .pause { display: block; } \
@@ -156,7 +166,7 @@
       loadProgress: function(percent) {
         var player = this.settings.createPlayer,
             loaded = getByClass(player.loaderClass, this.wrapper);
-        loaded[0].style.width = (100 * percent) + '%';
+        loaded.style.width = (100 * percent) + '%';
       },
       playPause: function() {
         if (this.playing) this.settings.play();
@@ -164,6 +174,7 @@
       },
       play: function() {
         var player = this.settings.createPlayer;
+        container[audiojs].helpers.removeClass(this.wrapper, player.errorClass);
         container[audiojs].helpers.addClass(this.wrapper, player.playingClass);
       },
       pause: function() {
@@ -609,11 +620,24 @@
     },
     load: function(mp3) {
       this.loadStartedCalled = false;
-      this.source.setAttribute('src', mp3);
+        //this.sleep(3000);
+        this.source.setAttribute('src', mp3);
       // The now outdated `load()` method is required for Safari 4
+       //this.sleep(3000);
       this.element.load();
-      this.mp3 = mp3;
+        //this.sleep(2000);
+      this.mp3 = mp3
+        //this.sleep(2000);
       container[audiojs].events.trackLoadProgress(this);
+    },
+    sleep: function (millisecond) {
+
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > millisecond) {
+                break;
+            }
+        }
     },
     loadError: function() {
       this.settings.loadError.apply(this);

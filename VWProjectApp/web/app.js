@@ -1,4 +1,5 @@
 /**
+/**
  * Created by Intarget on 28/09/2014.
  */
 var app = angular.module('VWApp',[]);
@@ -52,9 +53,8 @@ app.controller('MenuCtrl', function($scope, $rootScope){
     $rootScope.wsURL = "ws://localhost:9096//websocket";
     //$rootScope.wsURL = "ws://173.248.133.19:9096//websocket";
 
-
-    $scope.modules = [{id: 1, src:'img/home.png', displayText: 'Hola'},
-        {id: 2, src:'img/reportes.png', displayText: 'REPO'},
+    $scope.modules = [{id: 1, src:'img/home.png', displayText: 'Home'},
+        {id: 2, src:'img/reportes.png', displayText: 'Reportes'},
         {id: 3, src:'img/graficas.png', displayText: 'Graficas'},
         {id: 4, src:'img/telefono.png', displayText: 'Audios'},
         {id: 5, src:'img/upload.png', displayText: 'Carga'},
@@ -386,9 +386,40 @@ app.controller("UploadBD",function($scope, $rootScope)
 
 app.controller('ReportCtrl', function($scope, $rootScope){
 
+    $scope.dataLoading = false;
     $scope.csColNames = [];
+    $scope.csColNamesVentas = [];
+    $scope.csColNamesReparaciones = [];
     $scope.agencias = [];
+    $scope.agenciasVentas = [];
+    $scope.agenciasReparaciones = [];
     $scope.bdData = [];
+    $scope.bdDataVentas = [];
+    $scope.bdDataReparacciones = [];
+
+    $scope.showView = 0;
+    $scope.fselection = 0;
+    $scope.sselection = 0;
+
+    $scope.ReturnAnterior = function (nivel) {
+            $scope.showView = nivel;
+    }
+
+    $scope.ReturnPrincipal = function () {
+        $scope.showView = 0;
+    }
+
+    $scope.FirtMenuSelect = function(option)
+    {
+        $scope.fselection = option;
+        $scope.showView = 1;
+    }
+
+    $scope.SecondMenuSelect = function(option)
+    {
+        $scope.sselection = option;
+        $scope.showView = 2;
+    }
 
     $scope.FindMarcacion = function () {
         var property = "";
@@ -457,6 +488,70 @@ app.controller('ReportCtrl', function($scope, $rootScope){
 
     }
 
+
+    $scope.FindMarcacionVentas = function () {
+        var property = "";
+        var wherex = "";
+        var valuex = $scope.searchs.dialvalueVentas;
+        switch (Number($scope.searchs.dialfilterVentas)) {
+            case 30 : property="STATUSEFECTIVO"; break;
+            case 31 : property="AUTONOENTREGADO"; break;
+            case 32 : property="AGREGARLISTANOLLAMAR"; break;
+            case 33 : property="BARRERAIDIOMA"; break;
+            case 34 : property="BUZON"; break;
+            case 35 : property="COMUNICACIONDIFICIL"; break;
+            case 36 : property="DIFICILLOCALIZAR"; break;
+            case 37 : property="ENCUESTADO"; break;
+            case 38 : property="EQUIVOCADO"; break;
+            case 39 : property="FAXMODEM"; break;
+            case 40 : property="FINADO"; break;
+            case 41 : property="FUERASERVICIO"; break;
+            case 42 : property="GARANTIAVENTAS"; break;
+            case 43 : property="LLAMARTARDE"; break;
+            case 44 : property="NASOBRECUOTA"; break;
+            case 45 : property="NOCONTESTA"; break;
+            case 46 : property="NOCONTESTOENCUESTA"; break;
+            case 47 : property="NOENLAZATELEFONO"; break;
+            case 48 : property="NOEXISTE"; break;
+            case 49 : property="NOLEINTERESA"; break;
+            case 50 : property="NOSEENCUENTRA"; break;
+            case 51 : property="NOTERMINO"; break;
+            case 52 : property="NUMERONODISPONIBLE"; break;
+            case 53 : property="NUMERORESTRINGIDO"; break;
+            case 54 : property="OCUPADO"; break;
+            case 55 : property="SINEXTENSION"; break;
+            case 56 : property="SINMARCAR"; break;
+            case 57 : property="TELEFONOCONCESIONARIO"; break;
+            case 58 : property="VENTANOREALIZADA"; break;
+            case 59 : property="NOCOINCIDEMARCACONCESIONARA"; break;
+        }
+
+        switch (Number($scope.searchs.dialwhereVentas))
+        {
+            case 1:
+                wherex = " == ";
+                break;
+            case 2:
+                wherex = " < ";
+                break;
+            case 3:
+                wherex = " > ";
+                break;
+        }
+
+        var query = '$.'+property + ' ' + wherex + ' ' + valuex;
+        var concecionario = Enumerable.From($scope.bdDataVentas)
+            .Where(query)
+            //.Where(function (x) { return x.DEALERID == $scope.searchs.dealerID })
+            .Select(function (x) { return x })
+            .ToArray();
+        $scope.agenciasVentas = [];
+        $scope.agenciasVentas = concecionario;
+        $scope.$apply();
+
+    }
+
+
     $scope.FindDFilterDep = function()
     {
         var property = "";
@@ -515,10 +610,80 @@ app.controller('ReportCtrl', function($scope, $rootScope){
         $scope.$apply();
     }
 
+    $scope.FindDFilterDepVentas = function()
+    {
+        var property = "";
+        var wherex = "";
+        var valuex = $scope.searchs.depuvalueVentas;
+        switch (Number($scope.searchs.depufilterVentas)) {
+
+            case 2 : property="RECIBIDOS"; break;
+            case 4 : property="APTOS"; break;
+            case 6 : property="AGENCIACANCELADA"; break;
+            case 7 : property="AUTODEMO"; break;
+            case 8 : property="DUPLICADO"; break;
+            case 9 : property="DUPLICADO3MESES"; break;
+            case 10 : property="EMPRESASINCONTACTO"; break;
+            case 11 : property="ERRORFECHASERVICIO"; break;
+            case 12 : property="FLOTILLA"; break;
+            case 13 : property="FLOTILLANOVALIDADA"; break;
+            case 14 : property="NOCONTACTAR"; break;
+            case 15 : property="OTRAMARCA"; break;
+            case 16 : property="PROFECO"; break;
+            case 17 : property="SERVICIOINTERNO"; break;
+            case 18 : property="SINCONCESIONARIA"; break;
+            case 19 : property="SINMODELO"; break;
+            case 20 : property="SINNOMBRE"; break;
+            case 21 : property="SINTIPOCLIENTE"; break;
+            case 22 : property="SINTELEFONO"; break;
+            case 23 : property="TELSUGPORVW"; break;
+            case 24 : property="TELDUPDIFNOMYCHASIS"; break;
+            case 25 : property="TELVWBANKLEASING"; break;
+            case 26 : property="TELVWMEXICO"; break;
+            case 27 : property="TELEFONOINCOMPLETO"; break;
+            case 28 : property="VINDUPLICADOBASEANTERIOR"; break;
+
+
+        }
+
+        switch (Number($scope.searchs.depuwhereVentas))
+        {
+            case 1:
+                wherex = " == ";
+                break;
+            case 2:
+                wherex = " < ";
+                break;
+            case 3:
+                wherex = " > ";
+                break;
+        }
+
+
+
+
+        var query = '$.'+property + ' ' + wherex + ' ' + valuex;
+        var concecionario = Enumerable.From($scope.bdDataVentas)
+            .Where(query)
+            //.Where(function (x) { return x.DEALERID == $scope.searchs.dealerID })
+            .Select(function (x) { return x })
+            .ToArray();
+        $scope.agenciasVentas = [];
+        $scope.agenciasVentas = concecionario;
+        $scope.$apply();
+    }
+
     $scope.ClearFilter= function()
     {
         $scope.agencias = [];
         $scope.agencias= $scope.bdData;
+        $scope.$apply();
+    }
+
+    $scope.ClearFilterVentas= function()
+    {
+        $scope.agenciasVentas = [];
+        $scope.agenciasVentas= $scope.bdDataVentas;
         $scope.$apply();
     }
 
@@ -530,6 +695,18 @@ app.controller('ReportCtrl', function($scope, $rootScope){
             .FirstOrDefault();
         $scope.agencias = [];
         $scope.agencias.push(concecionario);
+        $scope.$apply();
+
+    }
+
+    $scope.FindDealerVentas = function()
+    {
+        var concecionario = Enumerable.From($scope.bdDataVentas)
+            .Where(function (x) { return x.NUMCONCE == $scope.searchs.dealerIDVentas })
+            .Select(function (x) { return x })
+            .FirstOrDefault();
+        $scope.agenciasVentas = [];
+        $scope.agenciasVentas.push(concecionario);
         $scope.$apply();
 
     }
@@ -611,6 +788,161 @@ app.controller('ReportCtrl', function($scope, $rootScope){
             document.body.removeChild(link);
         }
     }
+
+    $scope.DownloadVentas = function()
+    {
+        JSONToCSVConvertor(JSON.stringify($scope.agenciasVentas), "CasuisticaVentas", true);
+        function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+            //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+            var CSV = '';
+            //Set Report title in first row or line
+
+            CSV += ReportTitle + '\r\n\n';
+
+            //This condition will generate the Label/Header
+            if (ShowLabel) {
+                var row = "";
+
+                //This loop will extract the label from 1st index of on array
+                for (var index in arrData[0]) {
+
+                    //Now convert each value to string and comma-seprated
+                    row += index + ',';
+                }
+
+                row = row.slice(0, -1);
+
+                //append Label row with line break
+                CSV += row + '\r\n';
+            }
+
+            //1st loop is to extract each row
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+
+                //2nd loop will extract each column and convert it in string comma-seprated
+                for (var index in arrData[i]) {
+                    row += '"' + arrData[i][index] + '",';
+                }
+
+                row.slice(0, row.length - 1);
+
+                //add a line break after each row
+                CSV += row + '\r\n';
+            }
+
+            if (CSV == '') {
+                alert("Invalid data");
+                return;
+            }
+
+            //Generate a file name
+            var fileName = "IPSOS_VW_";
+            //this will remove the blank-spaces from the title and replace it with an underscore
+            fileName += ReportTitle.replace(/ /g,"_");
+
+            //Initialize file format you want csv or xls
+            var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+            // Now the little tricky part.
+            // you can use either>> window.open(uri);
+            // but this will not work in some browsers
+            // or you will not get the correct file extension
+
+            //this trick will generate a temp <a /> tag
+            var link = document.createElement("a");
+            link.href = uri;
+
+            //set the visibility hidden so it will not effect on your web-layout
+            link.style = "visibility:hidden";
+            link.download = fileName + ".csv";
+
+            //this part will append the anchor tag and remove it after automatic click
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
+    $scope.DownloadReparaciones = function()
+    {
+        JSONToCSVConvertor(JSON.stringify($scope.agenciasReparaciones), "ReparacionesServicio", true);
+        function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+            //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+            var CSV = '';
+            //Set Report title in first row or line
+
+            CSV += ReportTitle + '\r\n\n';
+
+            //This condition will generate the Label/Header
+            if (ShowLabel) {
+                var row = "";
+
+                //This loop will extract the label from 1st index of on array
+                for (var index in arrData[0]) {
+
+                    //Now convert each value to string and comma-seprated
+                    row += index + ',';
+                }
+
+                row = row.slice(0, -1);
+
+                //append Label row with line break
+                CSV += row + '\r\n';
+            }
+
+            //1st loop is to extract each row
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+
+                //2nd loop will extract each column and convert it in string comma-seprated
+                for (var index in arrData[i]) {
+                    row += '"' + arrData[i][index] + '",';
+                }
+
+                row.slice(0, row.length - 1);
+
+                //add a line break after each row
+                CSV += row + '\r\n';
+            }
+
+            if (CSV == '') {
+                alert("Invalid data");
+                return;
+            }
+
+            //Generate a file name
+            var fileName = "IPSOS_VW_";
+            //this will remove the blank-spaces from the title and replace it with an underscore
+            fileName += ReportTitle.replace(/ /g,"_");
+
+            //Initialize file format you want csv or xls
+            var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+            // Now the little tricky part.
+            // you can use either>> window.open(uri);
+            // but this will not work in some browsers
+            // or you will not get the correct file extension
+
+            //this trick will generate a temp <a /> tag
+            var link = document.createElement("a");
+            link.href = uri;
+
+            //set the visibility hidden so it will not effect on your web-layout
+            link.style = "visibility:hidden";
+            link.download = fileName + ".csv";
+
+            //this part will append the anchor tag and remove it after automatic click
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
     $scope.FillReport = function()
     {
 
@@ -620,6 +952,8 @@ app.controller('ReportCtrl', function($scope, $rootScope){
             var data = { Medicion:'bla'};
             var text = JSON.stringify(data);
             // Web Socket is connected, send data using send()
+            $scope.dataLoading = true;
+            $scope.$apply();
             ws.send("GETCASUISTICA " + text);
         };
         ws.onmessage = function (evt)
@@ -640,23 +974,125 @@ app.controller('ReportCtrl', function($scope, $rootScope){
 
             $scope.bdData = lista;
             $scope.agencias = lista;
+            $scope.dataLoading = false;
+
             $scope.$apply();
 
         };
         ws.onclose = function()
         {
             // websocket is closed.
+            $scope.dataLoading = false;
+            $scope.$apply();
             alert("Connection is closed...");
         };
         ws.onerror = function(e, msg)
         {
+            $scope.dataLoading = false;
+            $scope.$apply();
             alert(e.message);
         }
 
 
     }
-});
 
+    $scope.FillReportCasuisticaVentas = function()
+    {
+        var t = $scope.searchs.medicionVentas;
+        var t2 = $scope.searchs.anioVentas;
+
+        var ws = new WebSocket($rootScope.wsURL);
+        ws.onopen = function()
+        {
+            var data = { Medicion:'bla'};
+            var text = JSON.stringify(data);
+            // Web Socket is connected, send data using send()
+            $scope.dataLoading = true;
+            $scope.$apply();
+            ws.send("GETCASUISTICAVENTAS " + text);
+        };
+        ws.onmessage = function (evt)
+        {
+            var received_msg = evt.data;
+            var lista = JSON.parse(received_msg)
+
+            var he = lista[0];
+            for (var h in he) {
+                if(h == 'REGION' || h == 'NUMCONCE2'|| h == 'NUMCONCE3'|| h == 'NUMCONCE4'|| h == 'NUMCONCE5')
+                {
+
+                }
+                else {
+                    $scope.csColNamesVentas.push(h);
+                }
+            }
+
+            $scope.bdDataVentas = lista;
+            $scope.agenciasVentas = lista;
+            $scope.dataLoading = false;
+            $scope.$apply();
+
+        };
+        ws.onclose = function()
+        {
+            // websocket is closed.
+            $scope.dataLoading = false;
+            alert("Connection is closed...");
+        };
+        ws.onerror = function(e, msg)
+        {
+            $scope.dataLoading = false;
+            alert(e.message);
+        }
+    }
+
+    $scope.FillReportReparaciones = function()
+    {
+        var ws = new WebSocket($rootScope.wsURL);
+        ws.onopen = function()
+        {
+            var data = { Medicion:'bla'};
+            var text = JSON.stringify(data);
+            // Web Socket is connected, send data using send()
+            $scope.dataLoading = true;
+            $scope.$apply();
+            ws.send("GETREPARACIONES " + text);
+        };
+        ws.onmessage = function (evt)
+        {
+            var received_msg = evt.data;
+            var lista = JSON.parse(received_msg)
+
+            var he = lista[0];
+            for (var h in he) {
+                if(h == 'REGION')
+                {
+
+                }
+                else {
+                    $scope.csColNamesReparaciones.push(h);
+                }
+            }
+            $scope.bdDataReparacciones = lista;
+            $scope.agenciasReparaciones = lista;
+            $scope.dataLoading = false;
+            $scope.$apply();
+        };
+        ws.onclose = function()
+        {
+            // websocket is closed.
+            $scope.dataLoading = false;
+            $scope.$apply();
+            alert("Connection is closed...");
+        };
+        ws.onerror = function(e, msg)
+        {
+            $scope.dataLoading = false;
+            $scope.$apply();
+            alert(e.message);
+        }
+    }
+});
 
 app.controller('AudioCtrl', function($scope, $rootScope)
 {
@@ -667,7 +1103,6 @@ app.controller('AudioCtrl', function($scope, $rootScope)
 
     var a = audiojs.createAll();
     $scope.audio = a[0];
-
 
     $scope.sta = false; //status de bloque de audio
     $scope.csColNamesAudio = [];
@@ -693,7 +1128,7 @@ app.controller('AudioCtrl', function($scope, $rootScope)
 
             var he = audioData[0];
             for (var h in he) {
-               $scope.csColNamesAudio.push(h);
+                $scope.csColNamesAudio.push(h);
             }
             $scope.dataLoading = false;
             for(var i = 0; i < audioData.length; i++)
@@ -721,8 +1156,8 @@ app.controller('AudioCtrl', function($scope, $rootScope)
         }
     };
 
-    $scope.CargaPista = function (rt , urlg, st) {
 
+    $scope.CargaPista = function (rt , urlg, st) {
 
         var ws = new WebSocket($rootScope.wsURL);
         ws.onopen = function()
@@ -749,15 +1184,16 @@ app.controller('AudioCtrl', function($scope, $rootScope)
             var received_msg = evt.data;
 
             if (st == false) {
-                $scope.audio.load('Audios/'+received_msg);
-                $scope.audio.play();
-                $scope.sta = true;
-                $scope.$apply();
-                $scope.bloqueo(rt , $scope.sta);
 
+                //$scope.sleep(3000);
+                //$scope.sleep(3000);
+                $scope.sta = true;
+                $scope.bloqueo(rt , $scope.sta);
+                $scope.audio.load(received_msg);
+                $scope.audio.play();
             } else {
                 $scope.sta = false;
-                $scope.$apply();
+                // $scope.$apply();
                 $scope.bloqueo(rt , $scope.sta);
             }
             $scope.dataLoading = false;
@@ -800,9 +1236,18 @@ app.controller('AudioCtrl', function($scope, $rootScope)
             }
         };
 
+        $scope.sleep = function (millisecond) {
+
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > millisecond) {
+                    break;
+                }
+            }
+        }
+
+
     };
-
-
 
     $scope.descarga = function(){
 
@@ -811,35 +1256,35 @@ app.controller('AudioCtrl', function($scope, $rootScope)
     };
 
     $scope.LlenarAudios = function()
-   {
-       var ws = new WebSocket("ws://localhost:9001");
-       ws.onopen = function()
-       {
-           var data = { Medicion:'bla'};
-           var text = JSON.stringify(data);
-           // Web Socket is connected, send data using send()
-           ws.send("GETCASUISTICA " + text);
-       };
-       ws.onmessage = function (evt)
-       {
-           var received_msg = evt.data;
-           var lista = JSON.parse(received_msg)
-           var he = lista[0];
-           for (var h in he) {
-               $scope.csColNames2.push(h);
-           }
-           $scope.listaAudios = lista;
-           $scope.$apply();
+    {
+        var ws = new WebSocket("ws://localhost:9001");
+        ws.onopen = function()
+        {
+            var data = { Medicion:'bla'};
+            var text = JSON.stringify(data);
+            // Web Socket is connected, send data using send()
+            ws.send("GETCASUISTICA " + text);
+        };
+        ws.onmessage = function (evt)
+        {
+            var received_msg = evt.data;
+            var lista = JSON.parse(received_msg)
+            var he = lista[0];
+            for (var h in he) {
+                $scope.csColNames2.push(h);
+            }
+            $scope.listaAudios = lista;
+            $scope.$apply();
 
-       };
-       ws.onclose = function()
-       {
-           // websocket is closed.
-           alert("Connection is closed...");
-       };
-       ws.onerror = function(e, msg)
-       {
-           alert(e.message);
-       }
-   }
-});
+        };
+        ws.onclose = function()
+        {
+            // websocket is closed.
+            alert("Connection is closed...");
+        };
+        ws.onerror = function(e, msg)
+        {
+            alert(e.message);
+        }
+    }
+})

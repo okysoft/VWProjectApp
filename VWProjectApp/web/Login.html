@@ -12,10 +12,12 @@
     var app = angular.module('VWAppLog',[]);
     app.controller('Init', function($scope) {
         $scope.login = function () {
-            var ws = new WebSocket("ws://localhost:9001");
+            $scope.wsURL = "ws://localhost:9096//websocket";
+            //$scope.wsURL = "ws://173.248.133.19:9096//websocket";
+            var ws = new WebSocket($scope.wsURL);
             ws.onopen = function()
             {
-                var data = { UserName: $scope.user.username,Password: $scope.user.password};
+                var data = { userName: $scope.user.username,password: $scope.user.password};
                 var text = JSON.stringify(data);
                 // Web Socket is connected, send data using send()
                 ws.send("LOGIN " + text);

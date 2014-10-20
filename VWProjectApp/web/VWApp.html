@@ -13,7 +13,7 @@
     <script src="scripts/libs/audio.js"></script>
     <script src="app.js"></script>
     <style>
-        .audiojsZ audio { position: 500px; left: -1px; }
+
     </style>
 </head>
 <body>
@@ -33,7 +33,6 @@
     <div id="menuVW" class="menu" >
         <div class="menu-element" ng-click="menuClick(option.id)" ng-repeat="option in modules"><img ng-src="{{option.src}}"/><br><span>{{option.displayText}}</span></div>
     </div>
-
     <div id = "contentPrincipal" class="content" >
 
         <div id="homeDiv" class="content"  ng-show="  segment == 1" ng-controller="TestWS">
@@ -45,7 +44,6 @@
                 <input type="button" ng-click="testWS()"/>
             </p>
         </div>
-
         <div id="loadDiv" ng-show="segment == 5" class="content" ng-controller="UploadBD">
             <div ng-if="dataLoading" class="waitMask">
                 <div style="top:50%; left: 50%; position: absolute;">
@@ -165,50 +163,45 @@
 
                     </div>
 
-                     <br/>
+                    <br/>
 
                     <!-- <div id="com"  ng-app="" ng-controller="PlayingSong"> !-->
 
 
-                        Buscar: <input type="text" ng-model="na">
+                    Concesionaria: <input type="text" ng-model="na.CONCESIONARIA">    Modelo del auto: <input type="text" ng-model="na.MODELO">   Satisfacción: <input type="text" ng-model="na.P1">  Vendedor: <input type="text" ng-model="na.ASESOR"> <br/> Fecha:              <input type="text" ng-model="na.FECHA_SERVICIO">
 
-                        <br/>
-                        <div>
-                            <div class="datagrid" style="overflow: auto; width:1000px;height:300px;">
-                        <table>
+                    <br/>
+                    <div>
+                        <div class="datagrid" style="overflow: auto; width:1000px;height:300px;">
+                            <table>
 
-                            <tr ng-repeat="x in name | filter:na">
+                                <tr ng-repeat="x in name | filter:na">
 
-                                <td>
-                                    <input   type="checkbox"  ng-click="CargaPista(x.NAMEAUDIO, x.URLGUID,  sta)"  ng-disabled="x.STATUSNEW"  />
-                                </td>
+                                    <td>
+                                        <input   type="checkbox"  ng-click="CargaPista(x.NAMEAUDIO, x.URLGUID,  sta)"  ng-disabled="x.STATUSNEW"  />
+                                    </td>
 
-                                <td>{{x.NAMEAUDIO}}</td>
+                                    <td> {{x.NAMEAUDIO      }} </td>
+                                    <td> {{x.URLGUID        }} </td>
+                                    <td> {{x.CONCESIONARIA  }} </td>
+                                    <td> {{x.CHASIS         }} </td>
+                                    <td> {{x.MODELO         }} </td>
+                                    <td> {{x.NOMBRE         }} </td>
+                                    <td> {{x.EDAD           }} </td>
+                                    <td> {{x.ESTADO         }} </td>
+                                    <td> {{x.ASESOR         }} </td>
+                                    <td> {{x.P1             }} </td>
+                                    <td> {{x.FECHA_SERVICIO }} </td>
+                                    <td> {{x.TIPO_SERVICIO  }} </td>
 
-                                <td>{{x.URLGUID}}</td>
+                                    <td>
+                                        <input  type="image" src="img/download.png" ng-click="descarga()" style="width :20px ; height : 20px " />
+                                    </td>
 
-                                <td>{{x.CONCESIONARIA}}</td>
+                                </tr>
+                            </table>
 
-                                <td>{{x.CHASIS}}</td>
-
-                                <td>{{x.NOMBRE}}</td>
-
-                                <td>{{x.EDAD}}</td>
-
-                                <td>{{x.SEXO}}</td>
-
-                                <td>{{x.ESTADO}}</td>
-
-                                <td>{{x.ASESOR}}</td>
-
-                                <td>
-                                    <input  type="image" src="img/download.png" ng-click="descarga()" style="width :20px ; height : 20px " />
-                                </td>
-
-                            </tr>
-                        </table>
-
-                                </div>
+                        </div>
 
 
 
@@ -216,6 +209,7 @@
                 </div>
             </section>
         </div>
+
 
         <div id="configDiv" class="content" ng-show="segment == 7">
             <section ng-controller="TabCtrl">
@@ -244,10 +238,119 @@
             </section>
         </div>
 
-        <div id="reportDiv" class="content" ng-show="segment == 2">
-            <section ng-controller="ReportCtrl">
-                <div class="panel fadein fadeout">
+        <div id="reportDiv" class="content" ng-show="segment == 2" ng-controller="ReportCtrl">
+        <div ng-if="dataLoading" class="waitMask">
+            <div style="top:50%; left: 50%; position: absolute;">
+                <img src="img/loading_a.gif" style="width: 40px; height: 40px;">
+            </div>
+        </div>
+            <section >
+                <div id="menureports" ng-show="showView == 0" class="panel fadein fadeout">
+                    <h2>Seleccione una opción</h2>
+                    <br>
+                    <div>
+                        <input class="ReportMenuoption" id="btnPasajeros" value="Pasajeros" type="button" ng-click="FirtMenuSelect(1)"/>
+                        <input class="ReportMenuoption" id="btnComerciales" value="Comerciales" type="button" ng-click="FirtMenuSelect(2)"/>
+                    </div>
+                </div>
+               <div id="menureports2" ng-show="showView == 1"class="panel fadein fadeout">
+                   <h2>Seleccione entre servicio y ventas</h2>
+                   <br>
+                   <div>
+                        <a href="#" ng-click="ReturnAnterior(0)" style="padding-left: 1em;">Menu Anterior</a>
+                   </div>
+                   <br>
+                   <input class="ReportMenuoption" id="btnServicio" value="Servicio" type="button" ng-click="SecondMenuSelect(1)"/>
+                   <input class="ReportMenuoption" id="btnVentas" value="Ventas" type="button" ng-click="SecondMenuSelect(2)"/>
+               </div>
+                <div id="ReportComerciales" ng-show="fselection == 2 && showView == 2" class="panel fadein fadeout">
+                    <h2>Seleccione un reporte</h2>
+                    <br>
+                    <div>
+                        <a href="#" ng-click="ReturnAnterior(1)" style="padding-left: 1em;">Menu Anterior</a>
+                        <a href="#" ng-click="ReturnPrincipal()" style="padding-left: 1em;">Menu Inicial</a>
+                    </div>
+                    <br>
+                    <input class="ReportMenuoption" id="btnCasuistica" value="Casuística" type="button" ng-click="showView = 5"/>
+                    <input class="ReportMenuoption" id="btnBaseTrabajada" value="BaseTrabajada" type="button" ng-click="showView = 6"/>
+                    <input class="ReportMenuoption" id="btnValidacion" value="Validación" type="button" ng-click="showView = 7"/>
+                    <input class="ReportMenuoption" ng-show="sselection == 1" id="btnRepaciones" value="Reparaciones" type="button" ng-click="showView = 8"/>
+                </div>
+                <div id="ReportPasajeros" ng-show="fselection == 1 && showView == 2"class="panel fadein fadeout">
+                    <h2>Seleccione un reporte</h2>
+                    <br>
+                    <div>
+                    <a href="#" ng-click="ReturnAnterior(1)" style="padding-left: 1em;">Menu Anterior</a>
+                    <a href="#" ng-click="ReturnPrincipal()" style="padding-left: 1em;">Menu Inicial</a>
+                    </div>
+                    <br>
+                    <input class="ReportMenuoption" id="btnCasuisticaS" value="Casuística" type="button" ng-click="showView = 5"/>
+                    <input class="ReportMenuoption" id="btnBaseTrabajadaS" value="BaseTrabajada" type="button" ng-click="showView = 6"/>
+                    <input class="ReportMenuoption" id="btnValidacionS" value="Validación" type="button" ng-click="showView = 7"/>
+                    <input class="ReportMenuoption" ng-show="sselection == 1" id="btnRepacionesS" value="Reparaciones" type="button" ng-click="showView = 8"/>
+                </div>
+                <div id="basetrabajada" ng-show="showView == 6" class="panel fadein fadeout">
+                    <h2>Reporte Base Trabajada</h2>
+                    <br>
+                    <a href="#" ng-click="ReturnAnterior(2)" style="padding-left: 1em;">Menu Anterior</a>
+                    <a href="#" ng-click="ReturnPrincipal()"style="padding-left: 1em;">Menu Inicial</a>
+                </div>
+                <div id="basevalidacion" ng-show="showView == 7" class="panel fadein fadeout">
+                    <h2>Reporte Validaciones</h2>
+                    <br>
+                    <a href="#" ng-click="ReturnAnterior(2)" style="padding-left: 1em;">Menu Anterior</a>
+                    <a href="#" ng-click="ReturnPrincipal()"style="padding-left: 1em;">Menu Inicial</a>
+                </div>
+                <div id="Reparacion" ng-show="showView == 8" class="panel fadein fadeout">
+                    <h2>Reporte Reparaciones</h2>
+                    <br>
+                    <a href="#" ng-click="ReturnAnterior(2)" style="padding-left: 1em;">Menu Anterior</a>
+                    <a href="#" ng-click="ReturnPrincipal()"style="padding-left: 1em;">Menu Inicial</a>
+                    <div style="float: left;">
+                        <span>Mes: </span><select ng-model="searchs.medicionReparaciones">
+                        <option value="1">AGOSTO</option>
+                    </select>
+                        <span style="padding-left: 0.5em;">Año: </span><select ng-model="searchs.anioReparaciones" style="padding-right: 0.5em;">
+                        <option value="1">2014</option>
+                    </select>
+
+                        <input ng-click="FillReportReparaciones()" value="Obtener" type="button" />
+                    </div>
+                    <div style="padding-left: 40px; float: left;">
+                        <input ng-click="DownloadReparaciones()" value="Obtener Excel" type="button" />
+                    </div>
+                    <hr>
+                    <div class="datagrid" style="overflow: auto; width:1000px;height: 400px;"><table>
+                        <thead>
+                        <tr >
+                            <th ng-repeat="csCol in csColNamesReparaciones">{{csCol}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="agencia in agenciasReparaciones">
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.DEALERID}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.ORGNAMETP}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.VINNRF}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.EVDATEF}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TRANSMFLF}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.ORGMODF}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.Q00F0_MX}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.Q9G01}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.Q9G03}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.Q9H01}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.Q9H02}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FUNICO}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.INTTAG}}</td>
+                            <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.ARCHIVO}}</td>
+                        </tr>
+                        </tbody>
+                    </table></div>
+                </div>
+                <div id="casuistica" ng-show="sselection == 1 && showView == 5" class="panel fadein fadeout">
                     <h2>Reporte Casuistica</h2>
+                    <br>
+                    <a href="#" ng-click="ReturnAnterior(2)" style="padding-left: 1em;">Menu Anterior</a>
+                    <a href="#" ng-click="ReturnPrincipal()"style="padding-left: 1em;">Menu Inicial</a>
                     <div style="float: left;">
                     <input ng-click="FillReport()" value="Obtener" type="button" />
                     </div>
@@ -467,6 +570,222 @@
                         </tbody>
                     </table></div>
                 </div>
+                <div id="casuisticaVentas" ng-show="sselection == 2 && showView == 5" class="panel fadein fadeout">
+                <h2>Reporte Casuistica Ventas</h2>
+                <br>
+                <a href="#" ng-click="ReturnAnterior(2)" style="padding-left: 1em;">Menu Anterior</a>
+                <a href="#" ng-click="ReturnPrincipal()"style="padding-left: 1em;">Menu Inicial</a>
+                <div style="float: left;">
+                    <span>Mes: </span><select ng-model="searchs.medicionVentas">
+                        <option value="1">AGOSTO</option>
+                    </select>
+                    <span style="padding-left: 0.5em;">Año: </span><select ng-model="searchs.anioVentas" style="padding-right: 0.5em;">
+                        <option value="1">2014</option>
+                    </select>
+
+                    <input ng-click="FillReportCasuisticaVentas()" value="Obtener" type="button" />
+                </div>
+                <div style="padding-left: 40px; float: left;">
+                    <input ng-click="DownloadVentas()" value="Obtener Excel" type="button" />
+                </div>
+                <hr>
+                <div style="padding-bottom: 0.5em; padding-top: 0.5em;">
+                    <span>Buscar por Id Concesionaria</span> <input type="text" ng-model="searchs.dealerIDVentas">
+                    <input type="button" value="Buscar concesionaria" ng-click="FindDealerVentas()">
+                    <input type="button" value="Remover filtros" ng-click="ClearFilterVentas()">
+                    <br>
+                </div>
+                <div style="padding-bottom: 0.5em; padding-top: 0.5em;">
+                    <span>Filtrar Depurados por </span> <select ng-model="searchs.depufilterVentas">
+                     <option value="2">RECIBIDOS</option>
+                    <option value="4">APTOS</option>
+                    <option value="6">AGENCIACANCELADA</option>
+                    <option value="7">AUTODEMO</option>
+                    <option value="8">DUPLICADO</option>
+                    <option value="9">DUPLICADO3MESES</option>
+                    <option value="10">EMPRESASINCONTACTO</option>
+                    <option value="11">ERRORFECHASERVICIO</option>
+                    <option value="12">FLOTILLA</option>
+                    <option value="13">FLOTILLANOVALIDADA</option>
+                    <option value="14">NOCONTACTAR</option>
+                    <option value="15">OTRAMARCA</option>
+                    <option value="16">PROFECO</option>
+                    <option value="17">SERVICIOINTERNO</option>
+                    <option value="18">SINCONCESIONARIA</option>
+                    <option value="19">SINMODELO</option>
+                    <option value="20">SINNOMBRE</option>
+                    <option value="21">SINTIPOCLIENTE</option>
+                    <option value="22">SINTELEFONO</option>
+                    <option value="23">TELSUGPORVW</option>
+                    <option value="24">TELDUPDIFNOMYCHASIS</option>
+                    <option value="25">TELVWBANKLEASING</option>
+                    <option value="26">TELVWMEXICO</option>
+                    <option value="27">TELEFONOINCOMPLETO</option>
+                    <option value="28">VINDUPLICADOBASEANTERIOR</option>
+                </select>
+                    <span> Cuando: </span> <select ng-model="searchs.depuwhereVentas">
+                    <option value="1"> Igual a</option>
+                    <option value="2"> Menor que </option>
+                    <option value="3"> Mayor que </option>
+                </select>
+                    <span>Valor: </span>
+                    <input type="text" ng-model="searchs.depuvalueVentas">
+                    <input type="button" value="Buscar con Depuración" ng-click="FindDFilterDepVentas()">
+                    <br>
+                </div>
+                <div style="padding-top: 0.5em;">
+                    <span>Filtrar Marcación por </span> <select ng-model="searchs.dialfilterVentas">
+                    <option value="30">STATUSEFECTIVO</option>
+                    <option value="31">AUTONOENTREGADO</option>
+                    <option value="32">AGREGARLISTANOLLAMAR</option>
+                    <option value="33">BARRERAIDIOMA</option>
+                    <option value="34">BUZON</option>
+                    <option value="35">COMUNICACIONDIFICIL</option>
+                    <option value="36">DIFICILLOCALIZAR</option>
+                    <option value="37">ENCUESTADO</option>
+                    <option value="38">EQUIVOCADO</option>
+                    <option value="39">FAXMODEM</option>
+                    <option value="40">FINADO</option>
+                    <option value="41">FUERASERVICIO</option>
+                    <option value="42">GARANTIAVENTAS</option>
+                    <option value="43">LLAMARTARDE</option>
+                    <option value="44">NASOBRECUOTA</option>
+                    <option value="45">NOCONTESTA</option>
+                    <option value="46">NOCONTESTOENCUESTA</option>
+                    <option value="47">NOENLAZATELEFONO</option>
+                    <option value="48">NOEXISTE</option>
+                    <option value="49">NOLEINTERESA</option>
+                    <option value="50">NOSEENCUENTRA</option>
+                    <option value="51">NOTERMINO</option>
+                    <option value="52">NUMERONODISPONIBLE</option>
+                    <option value="53">NUMERORESTRINGIDO</option>
+                    <option value="54">OCUPADO</option>
+                    <option value="55">SINEXTENSION</option>
+                    <option value="56">SINMARCAR</option>
+                    <option value="57">TELEFONOCONCESIONARIO</option>
+                    <option value="58">VENTANOREALIZADA</option>
+                    <option value="59">NOCOINCIDEMARCACONCESIONARA</option>
+                </select>
+                    <span> Cuando: </span> <select ng-model="searchs.dialwhereVentas">
+                    <option value="1"> Igual a</option>
+                    <option value="2"> Menor que </option>
+                    <option value="3"> Mayor que </option>
+                </select>
+                    <span>Valor: </span>
+                    <input type="text" ng-model="searchs.dialvalueVentas">
+                    <input type="button" value="Buscar con Marcación" ng-click="FindMarcacionVentas()">
+                </div>
+                <br>
+                <div class="datagrid" style="overflow: auto; width:1000px;height: 400px;"><table>
+                    <thead>
+                    <tr >
+                        <th ng-repeat="csCol in csColNamesVentas">{{csCol}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="agencia in agenciasVentas">
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NUMCONCE}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.DEALERNAME}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.RECIBIDOS}}</td>
+
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.APTOS}}</td>
+
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.AGENCIACANCELADA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.AUTODEMO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.DUPLICADO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.DUPLICADO3MESES}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.EMPRESASINCONTACTO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.ERRORFECHASERVICIO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FLOTILLA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FLOTILLANOVALIDADA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOCONTACTAR}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.OTRAMARCA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.PROFECO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SERVICIOINTERNO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINCONCESIONARIA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINMODELO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINNOMBRE}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINTIPOCLIENTE}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINTELEFONO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TELSUGPORVW}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TELDUPDIFNOMYCHASIS}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TELVWBANKLEASING}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TELVWMEXICO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TELEFONOINCOMPLETO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.VINDUPLICADOBASEANTERIOR}}</td>
+
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.STATUSEFECTIVO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.AUTONOENTREGADO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.AGREGARLISTANOLLAMAR}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.BARRERAIDIOMA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.BUZON}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.COMUNICACIONDIFICIL}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.DIFICILLOCALIZAR}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.ENCUESTADO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.EQUIVOCADO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FAXMODEM}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FINADO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FUERASERVICIO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.GARANTIAVENTAS}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.LLAMARTARDE}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NASOBRECUOTA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOCONTESTA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOCONTESTOENCUESTA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOENLAZATELEFONO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOEXISTE}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOLEINTERESA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOSEENCUENTRA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOTERMINO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NUMERONODISPONIBLE}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NUMERORESTRINGIDO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.OCUPADO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINEXTENSION}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINMARCAR}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TELEFONOCONCESIONARIO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.VENTANOREALIZADA}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOCOINCIDEMARCACONCESIONARA}}</td>
+
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.EMPRESACONCONTACTO}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.CORREOSRECIBIDOS}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.CORREOSAPTOS}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.CORREOSBASURA}}</td>
+
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.VALIDADO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.AUTONOENTREGADO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.AGREGARLISTANOLLAMAR3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.BARRERAIDIOMA3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.BUZON3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.COMUNICACIONDIFICIL3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.DIFICILLOCALIZAR3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.EQUIVOCADO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FAXMODEM3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FINADO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.FUERASERVICIO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.GARANTIAVENTAS3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.LLAMARTARDE3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOCONTESTA3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOCONTESTOENCUESTA3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOENLAZATELEFONO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOEXISTE3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOLEINTERESA3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOSEENCUENTRA3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOTERMINO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NUMERONODISPONIBLE3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NUMERORESTRINGIDO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.OCUPADO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINEXTENSION3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.SINMARCAR3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.TELEFONOCONCESIONARIO3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.VENTANOREALIZADA3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.NOCOINCIDEMARCACONCESIONARA3}}</td>
+                        <td style="background-color:rgba(186, 255, 130, 0.100)!important; ">{{agencia.VALIDADOSGENERAL3}}</td>
+                    </tr>
+                    </tbody>
+                </table></div>
+                </div>
+
+
+
             </section>
         </div>
     </div>
